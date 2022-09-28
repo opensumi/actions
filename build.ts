@@ -4,9 +4,9 @@ import { cleanPlugin } from 'esbuild-clean-plugin';
 
 build({
   entryPoints: [
-    'actions/createPrNextCheckSuite.ts',
-    'actions/notifyPreReleaseResult.ts',
-    'actions/notifyPrNextResult.ts',
+    'src/createPrNextCheckSuite.ts',
+    'src/notifyPreReleaseResult.ts',
+    'src/notifyPrNextResult.ts',
   ],
   metafile: true,
   outdir: path.join(__dirname, './lib'),
