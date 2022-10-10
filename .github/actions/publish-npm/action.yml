@@ -1,0 +1,65 @@
+name: "Publish NPM"
+description: Publish OpenSumi Package
+
+inputs:
+  ref:
+    description: "A valid ref(hash/tags/branch) on OpenSumi/core, eg: v2.20, main"
+    required: true
+    default: "main"
+  npmToken:
+    description: "NPM Token"
+    required: true
+  githubToken:
+    description: "GitHub Token"
+    required: true
+  distTag:
+    description: "distTag, next or rc"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+        registry-url: "https://registry.npmjs.org"
+    - uses: actions/checkout@v2
+      with:
+        repository: opensumi/core
+        ref: ${{ inputs.ref }}
+        path: workspace
+    # 安装依赖并构建
+    - name: Install dependencies & Build
+      shell: bash
+      working-directory: ./workspace
+      run: |
+        npm i
+        npm run init
+
+    - name: Publish version
+      shell: bash
+      working-directory: ./workspace
+      run: |
+        lerna publish --exact --preid ${{ inputs.distTag }}-$(date +%s) --dist-tag ${{ inputs.distTag }} --force-publish='*' --no-push --no-git-tag-version prepatch --ignore-prepublish --ignore-scripts --no-private -y
+      env:
+        GH_TOKEN: ${{ inputs.githubToken }}
+        NODE_AUTH_TOKEN: ${{ inputs.npmToken }}
+
+    - name: Adding markdown
+      shell: bash
+      working-directory: ./workspace
+      if: success()
+      run: |
+        CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
+        echo '### Released :rocket:' $CURRENT_VERSION >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        echo $CURRENT_VERSION >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        echo 'user input ref:' $INPUT_REF >> $GITHUB_STEP_SUMMARY
+        echo '```log' >> $GITHUB_STEP_SUMMARY
+        git log --oneline -1 >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+      env:
+        INPUT_REF: ${{ inputs.ref }}
