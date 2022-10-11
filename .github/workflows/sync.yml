@@ -1,4 +1,4 @@
-name: Sync
+name: sync to npmmirror
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
-    name: Sync
+    name: sync
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js 16
