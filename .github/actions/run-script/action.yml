@@ -23,4 +23,4 @@ runs:
       run: |
         node lib/${{ inputs.script }}.js
       env:
-        INPUT_GITHUB_TOKEN: ${{ inputs.github-token }}
+        INPUT_GITHUB-TOKEN: ${{ inputs.github-token }}
