@@ -12,9 +12,8 @@ build({
   metafile: true,
   outdir: path.join(__dirname, './lib'),
   bundle: true,
-  splitting: true,
   platform: 'node',
-  format: 'esm',
+  format: 'cjs',
   chunkNames: 'chunks/[name]-[hash]',
   target: 'node14',
   banner: {
