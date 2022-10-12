@@ -21,6 +21,6 @@ runs:
     - name: Run Script
       shell: bash
       run: |
-        node lib/${{ inputs.script }}.js
+        node ${{ github.action_path }}/../../../lib/${{ inputs.script }}.js
       env:
         INPUT_GITHUB-TOKEN: ${{ inputs.github-token }}
