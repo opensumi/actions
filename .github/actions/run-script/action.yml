@@ -23,3 +23,5 @@ runs:
       shell: bash
       run: |
         node ./lib/${{ inputs.script }}.js
+      with:
+        github-token: ${{ inputs.github-token }}
