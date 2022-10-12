@@ -19,7 +19,7 @@ jobs:
         run: |
           echo "CURRENT_VERSION=1234" >> $GITHUB_ENV
           echo "CURRENT_COMMIT=b038058" >> $GITHUB_ENV
-          echo "this is summary" >> GITHUB_STEP_SUMMARY
+          echo "this is summary" >> $GITHUB_STEP_SUMMARY
       - uses: opensumi/actions/.github/actions/run-script@main
         if: success()
         with:
