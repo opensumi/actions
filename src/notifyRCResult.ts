@@ -8,6 +8,6 @@ call(async ({ github, context, core }) => {
     owner: context.repo.owner,
     repo: context.repo.repo,
     body: commentBody,
-    commit_sha: process.env.INPUT_REF,
+    commit_sha: process.env.CURRENT_COMMIT,
   });
 });
