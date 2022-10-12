@@ -18,8 +18,7 @@ jobs:
         if: success()
         run: |
           echo "CURRENT_VERSION=1234" >> $GITHUB_ENV
-
-      - uses: opensumi/actions/.github/actions/run-script.yml@main
+      - uses: opensumi/actions/.github/actions/run-script@main
         if: success()
         with:
           script: 'notifyRCResult'
