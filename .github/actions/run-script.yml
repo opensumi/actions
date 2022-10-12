@@ -1,4 +1,4 @@
-name: "Run Scripts"
+name: "Run Script"
 description: Run Specific Script
 
 inputs:
