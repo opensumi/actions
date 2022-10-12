@@ -21,6 +21,5 @@ runs:
         registry-url: "https://registry.npmjs.org"
     - name: Run Script
       shell: bash
-      working-directory: ./workspace
       run: |
         node ./lib/${{ inputs.script }}.js
