@@ -29,9 +29,12 @@ export const createVersionText = (
   );
 };
 
+/**
+ * GitHub 的 Summary 只是某个 step 的，所以在当前 step 无法查到上个 step 的日志
+ */
 export const readSummary = async () => {
   if (!process.env.GITHUB_STEP_SUMMARY) {
     return '';
   }
-  return (await readFile(process.env.GITHUB_STEP_SUMMARY)).toString()
+  return (await readFile(process.env.GITHUB_STEP_SUMMARY)).toString();
 };
