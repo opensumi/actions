@@ -7,6 +7,7 @@ build({
     'src/createPrNextCheckSuite.ts',
     'src/notifyPreReleaseResult.ts',
     'src/notifyPrNextResult.ts',
+    'src/notifyRCResult.ts',
   ],
   metafile: true,
   outdir: path.join(__dirname, './lib'),

@@ -1,0 +1,26 @@
+name: "Run Scripts"
+description: Run Specific Script
+
+inputs:
+  script:
+    description: "script key, will generate full path: lib/${script}.js"
+    required: true
+    default: "main"
+  github-token:
+    description: "GitHub Token"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.x
+        registry-url: "https://registry.npmjs.org"
+    - name: Run Script
+      shell: bash
+      working-directory: ./workspace
+      run: |
+        node ./lib/${{ inputs.script }}.js
