@@ -6,7 +6,9 @@ call(async ({ github, context, core }) => {
   try {
     const summary = await readSummary();
     body += summary;
-  } catch {}
+  } catch (error) {
+    console.log(`🚀 ~ file: notifyRCResult.ts ~ line 10 ~ call ~ error`, error);
+  }
 
   await github.rest.repos.createCommitComment({
     owner: context.repo.owner,
