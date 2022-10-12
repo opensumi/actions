@@ -1,3 +1,4 @@
+import { readFile } from 'fs/promises';
 import { Context } from './core';
 
 export const createVersionText = (
@@ -26,4 +27,11 @@ export const createVersionText = (
       '```\n' +
       process.env.GITHUB_STEP_SUMMARY ?? ''
   );
+};
+
+export const readSummary = async () => {
+  if (!process.env.GITHUB_STEP_SUMMARY) {
+    return '';
+  }
+  return (await readFile(process.env.GITHUB_STEP_SUMMARY)).toString()
 };
