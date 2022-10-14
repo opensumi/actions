@@ -49,8 +49,8 @@ if (!version) {
           // 只有当 npm registry 上有这个包再同步。
           if (await npmRegistry.versionExists(p, version)) {
             const result = await syncOnePackage(cnpmRegistry, p);
-            const result2 = await syncOnePackage(npmmirrorRegistry, p);
             console.log(`=== sync ${p} cnpm result`, result);
+            const result2 = await syncOnePackage(npmmirrorRegistry, p);
             console.log(`=== sync ${p} npmmirror result`, result2);
           } else {
             console.error(`=== ${p} ${version} 在 npm 上不存在，请检查。`);
