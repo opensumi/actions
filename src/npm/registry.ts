@@ -75,7 +75,7 @@ export class Registry {
       if (data.syncDone) {
         return;
       }
-      await sleep(1000);
+      await sleep(500);
       return await this.pollLog(
         pkgName,
         logId,
@@ -83,7 +83,7 @@ export class Registry {
         waitForFirstLog
       );
     }
-    await sleep(1000);
+    await sleep(500);
     console.log(`pollLog(:${waitForFirstLog}):`, pkgName);
     return await this.pollLog(pkgName, logId, offset, ++waitForFirstLog);
   }
@@ -94,5 +94,6 @@ export class Registry {
   }
 }
 
-export const cnpmRegistry = new Registry('https://registry.npmmirror.com');
+export const cnpmRegistry = new Registry('https://r.cnpmjs.org');
+export const npmmirrorRegistry = new Registry('https://registry.npmmirror.com');
 export const npmRegistry = new Registry('https://registry.npmjs.com');
