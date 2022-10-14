@@ -28,14 +28,6 @@ if (!version) {
       return true;
     }
 
-    if (p === '@opensumi/ide-utils') {
-      if (version.startsWith('2.16.')) {
-        // 2.17 可能有 ide-utils，也可能没有
-        // 2.16 没有 ide-utils
-        return true;
-      }
-    }
-
     if (retryTimes > 5) {
       console.log('stop retry package:', p, 'retryTimes:', retryTimes);
       return false;

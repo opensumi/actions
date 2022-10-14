@@ -24,7 +24,7 @@ export class Registry {
     if (statusCode === 200) {
       return true;
     }
-    console.log('pkgName', pkgName, 'statusCode', statusCode);
+    console.log('pkgName', pkgName, 'statusCode', statusCode, 'in', this.url);
     return false;
   }
 
@@ -36,7 +36,7 @@ export class Registry {
     if (resp.statusCode === 201) {
       const data = await resp.body.json();
       console.log(
-        `🚀 ~ file: registry.ts ~ line 17 ~ Registry ~ sync ~ data`,
+        `get ${pkgName} log id`,
         data
       );
       if (data.ok) {
@@ -70,7 +70,7 @@ export class Registry {
     const data = await resp.body.json();
     if (data.log) {
       const log = (data.log as string).trim();
-      console.log(log);
+      console.log("log:", log);
       const lines = log.split('\n').length;
       if (data.syncDone) {
         return;
