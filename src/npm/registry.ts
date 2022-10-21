@@ -13,9 +13,13 @@ export class Registry {
   }
 
   async sync(pkgName: string) {
-    const logId = await this.trySync(pkgName);
-    if (logId) {
-      await this.showLog(pkgName, logId);
+    try {
+      const logId = await this.trySync(pkgName);
+      if (logId) {
+        await this.showLog(pkgName, logId);
+      }
+    } catch (error) {
+      console.log(`${this.url}, sync ${pkgName} error`, error);
     }
   }
 
@@ -35,10 +39,7 @@ export class Registry {
     });
     if (resp.statusCode === 201) {
       const data = await resp.body.json();
-      console.log(
-        `get ${pkgName} log id`,
-        data
-      );
+      console.log(`get ${pkgName} log id`, data);
       if (data.ok) {
         const logId = data.logId as string;
         return logId;
@@ -70,7 +71,7 @@ export class Registry {
     const data = await resp.body.json();
     if (data.log) {
       const log = (data.log as string).trim();
-      console.log("log:", log);
+      console.log('log:', log);
       const lines = log.split('\n').length;
       if (data.syncDone) {
         return;
