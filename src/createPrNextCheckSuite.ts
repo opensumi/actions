@@ -22,7 +22,7 @@ call(async ({ github, context, core }) => {
         summary: `A version for pull request is **running**. sha: **${process.env.HEAD_SHA}**`,
       },
     });
-    return check.data.id;
+    core.exportVariable('CHECK_RUN_ID', check.data.id);
   } else {
     await github.rest.checks.update({
       owner: context.repo.owner,
@@ -33,7 +33,8 @@ call(async ({ github, context, core }) => {
       check_run_id: process.env.CHECK_RUN_ID,
       output: {
         title: 'Pre-Release Version publish failed',
-        summary: 'A version for pull request is **failed**. please check the error.',
+        summary:
+          'A version for pull request is **failed**. please check the error.',
       },
     });
   }
