@@ -12,7 +12,7 @@ export async function generateCommitMessage(content: string) {
     messages: [
       {
         role: 'system',
-        content: `用户输入的是某次 pr 的 diff 文件，你有两个任务，一是进行 Code Review，最好使用中文。二是为它生成一条合适的 commit message，commit message 应遵循 Angular 规范，commit message 最好使用英文。`,
+        content: `用户输入的是某次 pr 的 diff 文件，你有两个任务：1. 进行 Code Review，检查代码中是否有明显的错误，typo 等信息。2. 为该次 PR 生成一条合适的 PR title 和 commit message，commit message 应遵循 Angular 规范。`,
       },
       {
         role: 'user',
