@@ -10,7 +10,7 @@ export async function translateTo(content: string, targetLang: string) {
     messages: [
       {
         role: 'system',
-        content: `将用户输入的文本翻译为 ${targetLang}. 这是一个 Markdown 文件, 不需要翻译代码块里的内容。用户的文本是和计算机有关的，翻译用词需要精准。请尽可能完整的输出结果，不要输出一半。`,
+        content: `将用户的输入翻译为 ${targetLang}. 这是一个 Markdown 文件, 不需要翻译代码块和 frontmatter 里的内容。输入文本是和计算机有关的，翻译用词需要精准。`,
       },
       {
         role: 'user',
