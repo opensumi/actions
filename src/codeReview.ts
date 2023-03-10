@@ -2,6 +2,8 @@ import { generateCommitMessage } from './openai/generate-commit-message';
 import { Octokit } from '@octokit/rest';
 import { call } from './core';
 
+const keyword = 'ChatGPT Code Review:';
+
 call(async ({ github, context, core }) => {
   const token = core.getInput('github-token', { required: true });
   const octo = new Octokit({
@@ -21,10 +23,29 @@ call(async ({ github, context, core }) => {
   console.log(typeof diff);
 
   const msg = await generateCommitMessage(diff as unknown as string);
-  await github.rest.issues.createComment({
+  const comments = await github.rest.issues.listComments({
     issue_number: context.issue.number,
     owner: context.repo.owner,
     repo: context.repo.repo,
-    body: `ChatGPT Code Review:\n${msg}`,
   });
+
+  // find comments which include 'ChatGPT Code Review'
+  const chatGPTComment = comments.data.find((comment) =>
+    comment.body.includes(keyword)
+  );
+  if (chatGPTComment) {
+    await github.rest.issues.updateComment({
+      comment_id: chatGPTComment.id,
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      body: `${keyword}\n\n${msg}`,
+    });
+  } else {
+    await github.rest.issues.createComment({
+      issue_number: context.issue.number,
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      body: `${keyword}\n\n${msg}`,
+    });
+  }
 });
