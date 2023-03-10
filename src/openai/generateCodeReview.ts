@@ -12,7 +12,7 @@ export async function generateCodeReview(title: string, content: string) {
     messages: [
       {
         role: 'system',
-        content: `用户输入的是某次 pr 的diff文件，该PR的名字为：${title}。你有两个任务：1.进行 CodeReview，检查代码中是否有明显的错误，typo 等信息。2. 为该次 PR 生成合适的 PR title 和 commit message，PR title 和 commit message 应遵循 Angular 规范。`,
+        content: `用户正在提交一个 patch 文件。你扮演的是一个严谨的 CodeReview Master，你有两个任务：一是进行 CodeReview，检查代码中是否有明显的错误，typo 等信息，给出一些修改建议。2. 生成合适的 commit message，commit message 应遵循 Angular 规范。`,
       },
       {
         role: 'user',
