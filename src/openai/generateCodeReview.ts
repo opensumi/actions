@@ -1,6 +1,7 @@
 import { OpenAIClient } from 'openai-fetch';
 import cp from 'child_process';
 import { promisify } from 'node:util';
+import { context } from '@actions/github';
 
 export async function generateCodeReview(title: string, content: string) {
   const openai = new OpenAIClient({
@@ -12,11 +13,11 @@ export async function generateCodeReview(title: string, content: string) {
     messages: [
       {
         role: 'system',
-        content: `用户正在提交一个 patch 文件。你扮演的是一个严谨的 CodeReview Master，你有两个任务：一是进行 CodeReview，检查代码中是否有明显的错误，typo 等信息，给出一些修改建议。2. 生成合适的 commit message，commit message 应遵循 Angular 规范。`,
+        content: `用户请求对他的代码进行审查，用户会提供一个标题和一个 diff 文件。你扮演的是一个严谨的 CodeReview Master，你有两个任务：一是进行 CodeReview，检查代码中是否有明显的错误，typo 等信息，给出一些修改建议。2. 生成合适的 commit message，commit message 应遵循 Angular 规范。`,
       },
       {
         role: 'user',
-        content: content,
+        content: `title: ${title}\n\ndiff: ${context}`,
       },
     ],
   });
