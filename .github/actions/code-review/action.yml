@@ -1,0 +1,22 @@
+name: 'Code Review'
+description: Code Review
+
+inputs:
+  github-token:
+    description: The GitHub token used to create an authenticated client
+    default: ${{ github.token }}
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 18.x
+    - name: Code Review
+      shell: bash
+      run: |
+        node ${{ github.action_path }}/../../../lib/codeReview.js
+      env:
+        INPUT_GITHUB-TOKEN: ${{ inputs.github-token }}

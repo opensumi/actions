@@ -1,4 +1,6 @@
 import { OpenAIClient } from 'openai-fetch';
+import cp from 'child_process';
+import { promisify } from 'node:util';
 
 export async function generateCommitMessage(content: string) {
   const openai = new OpenAIClient({
@@ -21,4 +23,15 @@ export async function generateCommitMessage(content: string) {
 
   const result = completion.message;
   return result.content;
+}
+
+const execAsync = promisify(cp.exec);
+
+export async function generateLocal(base: string, head: string) {
+  const result = await execAsync(`git diff ${base} ${head}`, {
+    cwd: process.cwd(),
+  });
+  const msg = await generateCommitMessage(result.stdout);
+  console.log(`ChatGPT Result:`, msg);
+  return msg;
 }
