@@ -9,7 +9,7 @@ call(async ({ github, context, core }) => {
   const octo = new Octokit({
     auth: token,
   });
-  // 不知道为什么，@actions/github 自带的那个 octo 请求不到 patch 类型
+  // 不知道为什么，@actions/github 自带的那个 octo 请求不到 diff 文件，这里使用单独的包进行请求
   const { data: diff } = await octo.pulls.get({
     owner: context.repo.owner,
     repo: context.repo.repo,
@@ -18,12 +18,9 @@ call(async ({ github, context, core }) => {
       format: 'diff',
     },
   });
-  console.log(context.payload);
 
-  console.log(`🚀 ~ file: codeReview.ts:14 ~ call ~ diff:`, diff);
-  console.log(typeof diff);
-
-  const msg = await generateCodeReview('', diff as unknown as string);
+  const title = context.payload.pull_request?.title;
+  const msg = await generateCodeReview(title, diff as unknown as string);
   const comments = await github.rest.issues.listComments({
     issue_number: context.issue.number,
     owner: context.repo.owner,
