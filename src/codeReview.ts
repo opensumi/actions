@@ -1,4 +1,4 @@
-import { generateCommitMessage } from './openai/generate-commit-message';
+import { generateCodeReview } from './openai/generateCodeReview';
 import { Octokit } from '@octokit/rest';
 import { call } from './core';
 
@@ -18,11 +18,12 @@ call(async ({ github, context, core }) => {
       format: 'diff',
     },
   });
+  console.log(context.payload);
 
   console.log(`🚀 ~ file: codeReview.ts:14 ~ call ~ diff:`, diff);
   console.log(typeof diff);
 
-  const msg = await generateCommitMessage(diff as unknown as string);
+  const msg = await generateCodeReview('', diff as unknown as string);
   const comments = await github.rest.issues.listComments({
     issue_number: context.issue.number,
     owner: context.repo.owner,
