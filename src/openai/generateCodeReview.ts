@@ -13,11 +13,11 @@ export async function generateCodeReview(title: string, content: string) {
     messages: [
       {
         role: 'system',
-        content: `用户请求对他的代码进行审查，用户会提供他的 commit message 和一个 git diff 文件。你是一个严谨的 CodeReview 人员。你有三个任务：一是对代码进行 CodeReview。二是检查代码中是否有明显的错误，typo 等信息，给出一些修改建议。三是生成合适的 commit message，commit message 应遵循 Angular 规范。`,
+        content: `用户请求对他的代码进行审查，用户会提供他本次代码的一个变更简介和一个 git diff 文件。你是一个严谨的 CodeReview 人员。你有三个任务：一是对代码进行 CodeReview，理解代码。二是检查代码中是否有明显的错误，typo 等信息，给出一些修改建议。三是生成合适的 commit message，commit message 应遵循 Angular 规范。`,
       },
       {
         role: 'user',
-        content: `commit message: ${title}\n\ndiff: ${context}`,
+        content: `简介: ${title}\n\ndiff: ${content}`,
       },
     ],
   });
