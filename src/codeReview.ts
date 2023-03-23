@@ -20,30 +20,35 @@ call(async ({ github, context, core }) => {
   });
 
   const title = context.payload.pull_request?.title;
-  const msg = await generateCodeReview(title, diff as unknown as string);
-  const comments = await github.rest.issues.listComments({
-    issue_number: context.issue.number,
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-  });
-
-  // find comments which include 'ChatGPT Code Review'
-  const chatGPTComment = comments.data.find((comment) =>
-    comment.body.includes(keyword)
-  );
-  if (chatGPTComment) {
-    await github.rest.issues.updateComment({
-      comment_id: chatGPTComment.id,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      body: `${keyword}\n\n${msg}`,
-    });
-  } else {
-    await github.rest.issues.createComment({
+  try {
+    const msg = await generateCodeReview(title, diff as unknown as string);
+    const comments = await github.rest.issues.listComments({
       issue_number: context.issue.number,
       owner: context.repo.owner,
       repo: context.repo.repo,
-      body: `${keyword}\n\n${msg}`,
     });
+
+    // find comments which include 'ChatGPT Code Review'
+    const chatGPTComment = comments.data.find((comment) =>
+      comment.body.includes(keyword)
+    );
+    if (chatGPTComment) {
+      await github.rest.issues.updateComment({
+        comment_id: chatGPTComment.id,
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        body: `${keyword}\n\n${msg}`,
+      });
+    } else {
+      await github.rest.issues.createComment({
+        issue_number: context.issue.number,
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        body: `${keyword}\n\n${msg}`,
+      });
+    }
+  } catch (error) {
+    console.error('Generate code review failed: ', error);
+    core.setOutput('error', error);
   }
 });
