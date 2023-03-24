@@ -1,7 +1,5 @@
 import { OpenAIClient } from 'openai-fetch';
-import cp from 'child_process';
-import { promisify } from 'node:util';
-import { context } from '@actions/github';
+import { execAsync } from '../utils/exec';
 
 export async function generateCodeReview(title: string, content: string) {
   const openai = new OpenAIClient({
@@ -25,8 +23,6 @@ export async function generateCodeReview(title: string, content: string) {
   const result = completion.message;
   return result.content;
 }
-
-const execAsync = promisify(cp.exec);
 
 export async function generateLocal(base: string, head: string) {
   const result = await execAsync(`git diff ${base} ${head}`, {

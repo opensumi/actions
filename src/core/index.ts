@@ -25,8 +25,13 @@ interface AsyncFunctionArguments {
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export type AsyncFunction = (args: AsyncFunctionArguments) => Promise<any>;
 
-export async function call(asyncFunction: AsyncFunction, callOptions: ICallOptions = {}): Promise<void> {
-  const token = core.getInput('github-token', { required: true });
+export async function call(
+  asyncFunction: AsyncFunction,
+  callOptions: ICallOptions = {}
+): Promise<void> {
+  const token =
+    process.env.GITHUB_TOKEN ??
+    core.getInput('github-token', { required: true });
   const previews = core.getInput('previews');
 
   const opts: Options = {};
