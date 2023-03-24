@@ -15,13 +15,19 @@ call(async ({ github, context, core }) => {
   core.setOutput('title', data.title);
   core.setOutput('body', data.body);
   if (process.env.PR_FROM && process.env.TARGET_BRANCH) {
-    await github.rest.pulls.create({
+    const pull = await github.rest.pulls.create({
       owner,
       repo,
       title: data.title,
       body: `${data.body}\n\nBackport from #${pullNumber} ${sha}`,
       head: process.env.PR_FROM,
       base: process.env.TARGET_BRANCH,
+    });
+    await github.rest.issues.addLabels({
+      owner,
+      repo,
+      issue_number: pull.data.number,
+      labels: ['🚧 backport'],
     });
   }
 });

@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: opensumi/core
-          ref: ${{ steps.parse-pr-number.outputs.sha }}
+          ref: ${{ steps.parse-pr-data.outputs.sha }}
           path: workspace
           token: ${{ secrets.OS_BOT_TOKEN }}
 
