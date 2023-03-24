@@ -54,6 +54,7 @@ jobs:
           git checkout -b $branch
           git push -u origin $branch
           export PR_FROM=$branch
+          cd ..
           yarn tsx ./src/backportPrTo.ts
         env:
           OWNER: opensumi

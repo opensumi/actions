@@ -1,5 +1,4 @@
 import { call } from './core';
-import { execAsync } from './utils/exec';
 
 call(async ({ github, context, core }) => {
   const owner = process.env.OWNER;
@@ -10,7 +9,7 @@ call(async ({ github, context, core }) => {
     repo,
     pull_number: parseInt(pullNumber),
   });
-  const { sha } = data.base;
+  const { sha } = data.head;
 
   core.setOutput('sha', sha);
   core.setOutput('title', data.title);
