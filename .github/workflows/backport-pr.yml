@@ -11,7 +11,7 @@ on:
         required: true
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.OS_BOT_TOKEN }}
 
 jobs:
   backport:
@@ -61,3 +61,4 @@ jobs:
           REPO: core
           PULL_NUMBER: ${{ inputs.pull_number }}
           TARGET_BRANCH: ${{ inputs.target_branch }}
+          GITHUB_TOKEN: ${{ secrets.OS_BOT_TOKEN }}
