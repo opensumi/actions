@@ -22,5 +22,6 @@ runs:
         node-version: 18.x
     - name: Get Bot Token
       shell: bash
+      id: get-token
       run: |
         node ${{ github.action_path }}/../../../lib/getAccessToken.js

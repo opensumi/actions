@@ -35,8 +35,6 @@ jobs:
         id: parse-pr-data
         run: |
           yarn tsx ./src/backportPrTo.ts
-        with:
-          github-token: ${{ steps.get-bot-token.outputs.token }}
         env:
           OWNER: opensumi
           REPO: core
@@ -50,7 +48,8 @@ jobs:
           path: workspace
           token: ${{ steps.get-bot-token.outputs.token }}
 
-      - run: |
+      - name: Pick And Push
+        run: |
           cd workspace
           branch="backport/queue/${{ inputs.pull_number }}-$(date +"%Y%m%d%H%M%S")"
           git config --global user.name github-actions
@@ -65,5 +64,4 @@ jobs:
           REPO: core
           PULL_NUMBER: ${{ inputs.pull_number }}
           TARGET_BRANCH: ${{ inputs.target_branch }}
-        with:
-          github-token: ${{ steps.get-bot-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.get-bot-token.outputs.token }}

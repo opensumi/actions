@@ -10,5 +10,9 @@ call(async ({ github, context, core }) => {
     },
   });
 
-  core.setOutput('token', (await token.json()).token);
+  const tokenStr = (await token.json()).token;
+
+  core.exportVariable('GITHUB_TOKEN', tokenStr);
+  core.setOutput('token', tokenStr);
+  core.setSecret(tokenStr);
 });
