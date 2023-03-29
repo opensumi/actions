@@ -37,6 +37,12 @@ jobs:
           REPO: core
           PULL_NUMBER: ${{ inputs.pull_number }}
 
+      - uses: opensumi/actions/get-bot-token@main
+        id: get-bot-token
+        with:
+          token-server: ${{ secrets.BOT_TOKEN_SERVER }}
+          flag: ${{ secrets.BOT_FLAG }}
+
       # 这个 action checkout 出的代码可以 push 到远程
       - name: Checkout SHA
         uses: actions/checkout@v3
@@ -44,7 +50,7 @@ jobs:
           repository: opensumi/core
           ref: ${{ steps.parse-pr-data.outputs.sha }}
           path: workspace
-          token: ${{ secrets.OS_BOT_TOKEN }}
+          token: ${{ steps.get-bot-token.outputs.token }}
 
       - run: |
           cd workspace

@@ -9,6 +9,7 @@ build({
     'src/notifyPrNextResult.ts',
     'src/notifyRCResult.ts',
     'src/codeReview.ts',
+    'src/getAccessToken.ts',
   ],
   metafile: true,
   outdir: path.join(__dirname, './lib'),

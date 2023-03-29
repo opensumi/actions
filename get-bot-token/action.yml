@@ -1,0 +1,26 @@
+name: 'Get Bot Token'
+description: Get Bot Token
+
+inputs:
+  github-token:
+    description: The GitHub token used to create an authenticated client
+    default: ${{ github.token }}
+    required: false
+  token-server:
+    description: token server
+    required: true
+  flag:
+    description: current app
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+    - name: Get Bot Token
+      shell: bash
+      run: |
+        node ${{ github.action_path }}/../../../lib/getAccessToken.js
