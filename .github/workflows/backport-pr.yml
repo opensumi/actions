@@ -10,9 +10,6 @@ on:
         description: 'Target Branch'
         required: true
 
-env:
-  GITHUB_TOKEN: ${{ secrets.OS_BOT_TOKEN }}
-
 jobs:
   backport:
     runs-on: ubuntu-latest
@@ -28,21 +25,22 @@ jobs:
       - run: |
           yarn
 
-      - name: Parse Pull Request ${{ inputs.pull_number }}
-        id: parse-pr-data
-        run: |
-          yarn tsx ./src/backportPrTo.ts
-        env:
-          OWNER: opensumi
-          REPO: core
-          PULL_NUMBER: ${{ inputs.pull_number }}
-
       - uses: opensumi/actions/get-bot-token@main
         id: get-bot-token
         with:
           token-server: ${{ secrets.BOT_TOKEN_SERVER }}
           flag: ${{ secrets.BOT_FLAG }}
 
+      - name: Parse Pull Request ${{ inputs.pull_number }}
+        id: parse-pr-data
+        run: |
+          yarn tsx ./src/backportPrTo.ts
+        with:
+          github-token: ${{ steps.get-bot-token.outputs.token }}
+        env:
+          OWNER: opensumi
+          REPO: core
+          PULL_NUMBER: ${{ inputs.pull_number }}
       # 这个 action checkout 出的代码可以 push 到远程
       - name: Checkout SHA
         uses: actions/checkout@v3
@@ -67,4 +65,5 @@ jobs:
           REPO: core
           PULL_NUMBER: ${{ inputs.pull_number }}
           TARGET_BRANCH: ${{ inputs.target_branch }}
-          GITHUB_TOKEN: ${{ secrets.OS_BOT_TOKEN }}
+        with:
+          github-token: ${{ steps.get-bot-token.outputs.token }}
