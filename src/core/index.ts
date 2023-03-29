@@ -16,10 +16,12 @@ interface ICallOptions {
   encoding?: 'json' | 'string';
 }
 
+export type IGitHubKit = InstanceType<typeof GitHub>;
+
 interface AsyncFunctionArguments {
   context: Context;
   core: typeof core;
-  github: InstanceType<typeof GitHub>;
+  github: IGitHubKit;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint

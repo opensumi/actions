@@ -1,0 +1,29 @@
+name: Monthly Report
+
+on:
+  workflow_dispatch:
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    name: report
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: 'yarn'
+          registry-url: 'https://registry.npmjs.org'
+      - run: |
+          yarn
+
+      - uses: opensumi/actions/get-bot-token@main
+        id: get-bot-token
+        with:
+          token-server: ${{ secrets.BOT_TOKEN_SERVER }}
+          flag: ${{ secrets.BOT_FLAG }}
+
+      - name: Monthly Report
+        run: |
+          yarn tsx ./src/monthlyReport.ts
