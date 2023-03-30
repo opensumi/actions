@@ -15,4 +15,4 @@ outputs:
 
 runs:
   using: 'node16'
-  main: ${{ github.action_path }}/../lib/getAccessToken.js
+  main: ../lib/getAccessToken.js
