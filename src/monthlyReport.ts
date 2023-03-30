@@ -679,20 +679,20 @@ call(async ({ github, context, core }) => {
   const repo = 'core';
 
   const service = new GitHubService(github);
-  const now = new Date();
-  // 获取一个月前的日期对象
-  const oneMonthAgo = new Date(
-    now.getFullYear(),
-    now.getMonth() - 1,
-    now.getDate()
-  );
+  // 获取当前日期
+  const today = new Date();
+  // 获取当前月份的第一天
+  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+  // 获取下个月份的第一天，再倒退一天得到本月最后一天
+  const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+  const lastDay = new Date(nextMonth.getTime() - 86400000);
 
   const results = await service.getOrganizationPRCount(owner);
   const notUpToStandards = [];
   let content = '# Monthly Report of OpenSumi\n';
   content += `> This report counts OpenSumi organization data from ${formatDate(
-    oneMonthAgo
-  )} to ${formatDate(now)}.\n\n`;
+    firstDay
+  )} to ${formatDate(lastDay)}.\n\n`;
   content +=
     'The monthly report aims to provide an overview of the [OpenSumi](https://github.com/opensumi), it contains the basis of all projects within the [OpenSumi](https://github.com/opensumi) organization, as well as a summary of the most significant changes and improvements made during the month.\n';
   content += '## Overview\n';
@@ -703,8 +703,8 @@ call(async ({ github, context, core }) => {
   const history = await service.getRepoHistory(
     owner,
     repo,
-    oneMonthAgo.getTime(),
-    now.getTime()
+    firstDay.getTime(),
+    lastDay.getTime()
   );
 
   content += '### Basic (opensumi/core)\n';
@@ -816,8 +816,8 @@ call(async ({ github, context, core }) => {
   content += 'Thanks goes to these wonderful people!';
 
   const title = `[Monthly Report] Monthly Report of OpenSumi from ${formatDate(
-    oneMonthAgo
-  )} to ${formatDate(now)}`;
+    firstDay
+  )} to ${formatDate(lastDay)}`;
 
   await service.octo.issues.create({
     owner: 'opensumi',
