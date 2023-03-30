@@ -780,7 +780,7 @@ call(async ({ github, context, core }) => {
   content += '| Core Member | 5 |\n';
   content += '| Contributor | 3 |\n';
   content += '\n';
-  content += 'Some team members did not meet the standard this month.\n';
+  content += 'Some team members did not meet the requirement this month.\n';
 
   content += '| Contributor ID | Team Role | Count | Requirement (PRs) |\n';
   content += '| -------------- | --------- | --------- | ----------------- |\n';
@@ -813,7 +813,7 @@ call(async ({ github, context, core }) => {
   content += '\n';
   content += 'Thanks goes to these wonderful people!';
 
-  const title = `[Monthly Report] Monthly Report of OpenSumi from ${formatDate(
+  const title = `Monthly Report of OpenSumi from ${formatDate(
     firstDay
   )} to ${formatDate(lastDay)}`;
 
