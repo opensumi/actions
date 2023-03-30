@@ -9,18 +9,10 @@ inputs:
     description: current app
     required: true
 
+outputs:
+  token:
+    description: 'Bot Token'
+
 runs:
-  using: 'composite'
-  steps:
-    - name: Use Node.js 18.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18.x
-    - name: Get Bot Token
-      shell: bash
-      id: get-token
-      run: |
-        node ${{ github.action_path }}/../lib/getAccessToken.js
-      with:
-        token-server: ${{ inputs.token-server }}
-        flag: ${{ inputs.flag }}
+  using: 'node16'
+  main: ${{ github.action_path }}/../lib/getAccessToken.js
