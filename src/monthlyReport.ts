@@ -813,7 +813,7 @@ call(async ({ github, context, core }) => {
   content += '\n';
   content += 'Thanks goes to these wonderful people!';
 
-  const title = `Monthly Report of OpenSumi from ${formatDate(
+  const title = `📈 Monthly Report of OpenSumi from ${formatDate(
     firstDay
   )} to ${formatDate(lastDay)}`;
 
@@ -822,6 +822,6 @@ call(async ({ github, context, core }) => {
     repo: 'reports',
     title,
     body: content,
-    labels: ['monthly-report'],
+    labels: ['📊 monthly-report'],
   });
 });
