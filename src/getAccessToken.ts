@@ -1,6 +1,6 @@
-import { call } from './core';
+import * as core from '@actions/core';
 
-call(async ({ github, context, core }) => {
+async function main() {
   const tokenServer = core.getInput('token-server');
   const flag = core.getInput('flag');
 
@@ -15,4 +15,6 @@ call(async ({ github, context, core }) => {
   core.exportVariable('GITHUB_TOKEN', tokenStr);
   core.setOutput('token', tokenStr);
   core.setSecret(tokenStr);
-});
+}
+
+main();

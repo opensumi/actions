@@ -2,10 +2,6 @@ name: 'Get Bot Token'
 description: Get Bot Token
 
 inputs:
-  github-token:
-    description: The GitHub token used to create an authenticated client
-    default: ${{ github.token }}
-    required: false
   token-server:
     description: token server
     required: true
