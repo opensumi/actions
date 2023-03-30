@@ -21,3 +21,6 @@ runs:
       id: get-token
       run: |
         node ${{ github.action_path }}/../lib/getAccessToken.js
+      with:
+        token-server: ${{ inputs.token-server }}
+        flag: ${{ inputs.flag }}
