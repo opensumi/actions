@@ -1,4 +1,5 @@
-import { call, IGitHubKit } from './core';
+import { call, getGitHubToken } from './core';
+import { Octokit } from '@octokit/rest';
 
 // 格式化日期为 "yyyy-mm-dd" 的字符串
 export const formatDate = (date: Date) => {
@@ -68,10 +69,11 @@ export const TEAM_MEMBER_PR_REQUIREMENT = {
 };
 
 class GitHubService {
-  constructor(private github: IGitHubKit) {}
-
-  get octo() {
-    return this.github.rest;
+  octo: Octokit;
+  constructor(private token: string) {
+    this.octo = new Octokit({
+      auth: token,
+    });
   }
 
   async getRepoStargazers(
@@ -80,7 +82,7 @@ class GitHubService {
     page?: number,
     perPage = PER_PAGE
   ) {
-    const result = await this.github.request(
+    const result = await this.octo.request(
       'GET /repos/{owner}/{repo}/stargazers',
       {
         owner,
@@ -101,20 +103,17 @@ class GitHubService {
     page?: number,
     perPage = PER_PAGE
   ) {
-    const result = await this.github.request(
-      'GET /repos/{owner}/{repo}/issues',
-      {
-        owner,
-        repo,
-        page: page,
-        per_page: perPage,
-        state: 'all',
-        sort: 'updated',
-        headers: {
-          Accept: 'application/vnd.github.v3.json',
-        },
-      }
-    );
+    const result = await this.octo.request('GET /repos/{owner}/{repo}/issues', {
+      owner,
+      repo,
+      page: page,
+      per_page: perPage,
+      state: 'all',
+      sort: 'updated',
+      headers: {
+        Accept: 'application/vnd.github.v3.json',
+      },
+    });
     return result;
   }
 
@@ -124,24 +123,21 @@ class GitHubService {
     page?: number,
     perPage = PER_PAGE
   ) {
-    const result = await this.github.request(
-      'GET /repos/{owner}/{repo}/pulls',
-      {
-        owner,
-        repo,
-        page: page,
-        per_page: perPage,
-        state: 'all',
-        headers: {
-          Accept: 'application/vnd.github.v3.json',
-        },
-      }
-    );
+    const result = await this.octo.request('GET /repos/{owner}/{repo}/pulls', {
+      owner,
+      repo,
+      page: page,
+      per_page: perPage,
+      state: 'all',
+      headers: {
+        Accept: 'application/vnd.github.v3.json',
+      },
+    });
     return result;
   }
 
   async getRepoStargazersCount(owner: string, repo: string) {
-    const resp = await this.github.request('GET /repos/{owner}/{repo}', {
+    const resp = await this.octo.request('GET /repos/{owner}/{repo}', {
       owner,
       repo,
     });
@@ -675,10 +671,12 @@ class GitHubService {
 }
 
 call(async ({ github, context, core }) => {
+  const token = getGitHubToken();
+
   const owner = 'opensumi';
   const repo = 'core';
 
-  const service = new GitHubService(github);
+  const service = new GitHubService(token);
   // 获取当前日期
   const today = new Date();
   // 获取当前月份的第一天
@@ -773,7 +771,7 @@ call(async ({ github, context, core }) => {
     }
   }
   content += '\n';
-  content += '## TeamMember requrement\n';
+  content += '## TeamMember requirement\n';
   content +=
     'We require each team member to have corresponding contribution requirements while enjoying permissions.\n';
   content += '| Team Role | Requirement (PRs) |\n';

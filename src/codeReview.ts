@@ -1,11 +1,12 @@
 import { generateCodeReview } from './openai/generateCodeReview';
 import { Octokit } from '@octokit/rest';
-import { call } from './core';
+import { call, getGitHubToken } from './core';
 
 const keyword = 'ChatGPT Code Review:';
 
 call(async ({ github, context, core }) => {
-  const token = core.getInput('github-token', { required: true });
+  const token = getGitHubToken();
+
   const octo = new Octokit({
     auth: token,
   });

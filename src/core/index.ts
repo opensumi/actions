@@ -31,9 +31,7 @@ export async function call(
   asyncFunction: AsyncFunction,
   callOptions: ICallOptions = {}
 ): Promise<void> {
-  const token =
-    process.env.GITHUB_TOKEN ??
-    core.getInput('github-token', { required: true });
+  const token = getGitHubToken();
   const previews = core.getInput('previews');
 
   const opts: Options = {};
@@ -73,4 +71,11 @@ export async function call(
 function handleError(err: any): void {
   console.error(err);
   core.setFailed(`Unhandled error: ${err}`);
+}
+
+export function getGitHubToken() {
+  const token =
+    process.env.GITHUB_TOKEN ??
+    core.getInput('github-token', { required: true });
+  return token;
 }
