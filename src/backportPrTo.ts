@@ -19,7 +19,10 @@ call(async ({ github, context, core }) => {
       owner,
       repo,
       title: data.title,
-      body: `${data.body}\n\n---\n\nBackport from #${pullNumber} ${sha}\n\nThanks to @${data.user.login} for your valuable contribution.`,
+      body: `${data.body}\n\n---\n\nBackport from #${pullNumber} ${sha.slice(
+        0,
+        10
+      )}\n\nThanks to @${data.user.login} for your valuable contribution.`,
       head: process.env.PR_FROM,
       base: process.env.TARGET_BRANCH,
     });
