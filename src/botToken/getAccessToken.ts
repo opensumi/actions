@@ -15,6 +15,7 @@ async function main() {
     const tokenStr = (await token.body.json()).token;
 
     core.exportVariable('GITHUB_TOKEN', tokenStr);
+    core.exportVariable('__OPENSUMI_BOT__', '1');
     core.setOutput('token', tokenStr);
     core.setSecret(tokenStr);
   } catch (error) {

@@ -15,4 +15,5 @@ outputs:
 
 runs:
   using: 'node16'
-  main: ../lib/getAccessToken.js
+  main: ../lib/botToken/getAccessToken.js
+  post: ../lib/botToken/revokeToken.js
