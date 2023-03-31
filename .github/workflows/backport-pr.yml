@@ -25,8 +25,8 @@ jobs:
       - run: |
           yarn
 
-      - uses: opensumi/actions/get-bot-token@main
-        id: get-bot-token
+      - uses: opensumi/actions/bot-token@main
+        id: bot-token
         with:
           token-server: ${{ secrets.BOT_TOKEN_SERVER }}
           flag: ${{ secrets.BOT_FLAG }}
@@ -46,7 +46,7 @@ jobs:
           repository: opensumi/core
           ref: ${{ steps.parse-pr-data.outputs.sha }}
           path: workspace
-          token: ${{ steps.get-bot-token.outputs.token }}
+          token: ${{ steps.bot-token.outputs.token }}
 
       - name: Pick And Push
         run: |
@@ -64,4 +64,4 @@ jobs:
           REPO: core
           PULL_NUMBER: ${{ inputs.pull_number }}
           TARGET_BRANCH: ${{ inputs.target_branch }}
-          GITHUB_TOKEN: ${{ steps.get-bot-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.bot-token.outputs.token }}

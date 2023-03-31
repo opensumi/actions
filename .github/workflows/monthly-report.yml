@@ -18,8 +18,8 @@ jobs:
       - run: |
           yarn
 
-      - uses: opensumi/actions/get-bot-token@main
-        id: get-bot-token
+      - uses: opensumi/actions/bot-token@main
+        id: bot-token
         with:
           token-server: ${{ secrets.BOT_TOKEN_SERVER }}
           flag: ${{ secrets.BOT_FLAG }}
