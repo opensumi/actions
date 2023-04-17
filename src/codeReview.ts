@@ -5,12 +5,21 @@ import { call, getGitHubToken } from './core';
 const keyword = 'ChatGPT Code Review:';
 
 call(async ({ github, context, core }) => {
+  let skip = false;
+  if (context.ref && context.ref.includes('backport/queue')) {
+    skip = true;
+  }
+  if (skip) {
+    return;
+  }
+
   const token = getGitHubToken();
 
+  // 不知道为什么，@actions/github 自带的那个 octo 请求不到 diff 文件，这里使用单独的包进行请求
   const octo = new Octokit({
     auth: token,
   });
-  // 不知道为什么，@actions/github 自带的那个 octo 请求不到 diff 文件，这里使用单独的包进行请求
+
   const { data: diff } = await octo.pulls.get({
     owner: context.repo.owner,
     repo: context.repo.repo,
