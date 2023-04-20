@@ -63,7 +63,7 @@ call(async ({ github, context, core, meta }) => {
 
     for (const [i, commit] of commits.entries()) {
       q.add(async () => {
-        const patchUrl = `https://api.github.com/repos/${meta.slug}/commits/${commit}`;
+        const patchUrl = `https://api.github.com/repos/opensumi/core/commits/${commit}`;
         const resp = await undici.request(patchUrl, {
           headers: {
             Accept: 'application/vnd.github.VERSION.patch',
