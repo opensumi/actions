@@ -7,7 +7,7 @@
  */
 import { call, getGitHubToken } from './core';
 import * as fs from 'fs-extra';
-import Queue from 'queue';
+import Queue from 'p-queue';
 import { getDateString } from './utils';
 import { execAsync } from './utils/exec';
 
@@ -54,11 +54,12 @@ call(async ({ github, context, core, meta }) => {
     const patches: string[] = new Array(commits.length).fill('');
     const q = new Queue({
       concurrency: 5,
+      autoStart: false,
     });
-    q.stop();
+    q.clear();
 
     for (const [i, commit] of commits.entries()) {
-      q.push(async () => {
+      q.add(async () => {
         const patchUrl = `https://api.github.com/repos/${meta.slug}/commits/${commit}`;
         const patchBody = await fetch(patchUrl, {
           headers: {
@@ -70,10 +71,11 @@ call(async ({ github, context, core, meta }) => {
       });
     }
 
-    await new Promise<void>((resolve, reject) =>
-      q.start((err) => (err ? reject(err) : resolve()))
-    );
-    const dir = 'workspace';
+    q.start();
+
+    await q.onEmpty();
+
+    const dir = process.env.CODEBASE_PATH;
 
     async function exec(cmd: string, options: { ignoreError?: boolean } = {}) {
       if (options.ignoreError) {
