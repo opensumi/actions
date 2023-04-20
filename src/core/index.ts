@@ -16,12 +16,17 @@ interface ICallOptions {
   encoding?: 'json' | 'string';
 }
 
+interface IMeta {
+  slug: string;
+}
+
 export type IGitHubKit = InstanceType<typeof GitHub>;
 
 interface AsyncFunctionArguments {
   context: Context;
   core: typeof core;
   github: IGitHubKit;
+  meta: IMeta;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
@@ -42,11 +47,16 @@ export async function call(
 
   const github = getOctokit(token, opts);
 
+  const meta = {
+    slug: `${context.repo.owner}/${context.repo.repo}`,
+  } as IMeta;
+
   // Using property/value shorthand on `require` (e.g. `{require}`) causes compilation errors.
   const result = await asyncFunction({
     github,
     context,
     core,
+    meta,
   });
 
   let encoding = callOptions.encoding;

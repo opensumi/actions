@@ -1,5 +1,6 @@
 import { call, getGitHubToken } from './core';
 import { Octokit } from '@octokit/rest';
+import { getDateString } from './utils';
 
 // 格式化日期为 "yyyy-mm-dd" 的字符串
 export const formatDate = (date: Date) => {
@@ -18,30 +19,6 @@ export function range(from: number, to: number): number[] {
     r.push(i);
   }
   return r;
-}
-
-export function getTimeStampByDate(t: Date | number | string): number {
-  const d = new Date(t);
-
-  return d.getTime();
-}
-
-export function getDateString(
-  t: Date | number | string,
-  format = 'yyyy/MM/dd'
-): string {
-  const d = new Date(getTimeStampByDate(t));
-
-  const year = d.getFullYear();
-  const month = d.getMonth() + 1;
-  const date = d.getDate();
-
-  const formattedString = format
-    .replace('yyyy', String(year))
-    .replace('MM', String(month))
-    .replace('dd', String(date));
-
-  return formattedString;
 }
 
 export interface IOrganizationPrResult {
