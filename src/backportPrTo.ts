@@ -8,7 +8,7 @@
 import { call, getGitHubToken } from './core';
 import * as fs from 'fs-extra';
 import Queue from 'p-queue';
-import { fetch } from 'undici';
+import undici from 'undici';
 import { getDateString } from './utils';
 import { execAsync } from './utils/exec';
 
@@ -62,13 +62,13 @@ call(async ({ github, context, core, meta }) => {
     for (const [i, commit] of commits.entries()) {
       q.add(async () => {
         const patchUrl = `https://api.github.com/repos/${meta.slug}/commits/${commit}`;
-        const patchBody = await fetch(patchUrl, {
+        const resp = await undici.request(patchUrl, {
           headers: {
             Accept: 'application/vnd.github.VERSION.patch',
             Authorization: `token ${token}`,
           },
         });
-        patches[i] = await patchBody.text();
+        patches[i] = await resp.body.text();
       });
     }
 
