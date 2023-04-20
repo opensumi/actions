@@ -30,8 +30,9 @@ call(async ({ github, context, core }) => {
   });
 
   const title = context.payload.pull_request?.title;
+  const body = context.payload.pull_request?.body;
   try {
-    const msg = await generateCodeReview(title, diff as unknown as string);
+    const msg = await generateCodeReview(title, body, diff as unknown as string);
     const comments = await github.rest.issues.listComments({
       issue_number: context.issue.number,
       owner: context.repo.owner,
