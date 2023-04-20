@@ -68,10 +68,21 @@ call(async ({ github, context, core, meta }) => {
           headers: {
             Accept: 'application/vnd.github.VERSION.patch',
             Authorization: `token ${token}`,
+            'User-Agent': 'github.com/opensumi/actions'
           },
         });
+        if (resp.statusCode !== 200) {
+          throw new Error(
+            `Failed to fetch patch for commit ${commit}, status code: ${
+              resp.statusCode
+            }, body: ${await resp.body.text()}`
+          );
+        }
         patches[i] = await resp.body.text();
-        console.log(`🚀 ~ file: backportPrTo.ts:74 ~ q.add ~ patches[i]:`, patches[i]);
+        console.log(
+          `🚀 ~ file: backportPrTo.ts:74 ~ q.add ~ patches[i]:`,
+          patches[i]
+        );
       });
     }
 
