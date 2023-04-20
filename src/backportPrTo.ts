@@ -9,6 +9,7 @@ import { call, getGitHubToken } from './core';
 import * as fs from 'fs-extra';
 import Queue from 'p-queue';
 import undici from 'undici';
+import path from 'path';
 import { getDateString } from './utils';
 import { execAsync } from './utils/exec';
 
@@ -92,7 +93,7 @@ call(async ({ github, context, core, meta }) => {
 
     await exec('git am --abort', { ignoreError: true });
     // Cherry pick the commits to be backported.
-    const patchPath = `${dir}.patch`;
+    const patchPath = path.resolve(`${dir}.patch`);
 
     for (const patch of patches) {
       try {
