@@ -20,7 +20,7 @@ export async function generateCodeReview(
 检查代码是否存在明显错误、typo等问题，并提出修改建议。
 根据Angular规范生成合适的commit message。
 
-请注意，你输出的内容要尽可能的精简和准确，用户已经熟知 Angular 规范是什么，你的输出内容中不需要介绍 Angular 规范。`,
+请注意，你输出的内容要尽可能的精简和准确，用户已经熟知 Angular 规范是什么，你的输出内容中不需要介绍 Angular 规范。你不需要重复展示用户修改的 diff。`,
       },
       {
         role: 'user',
