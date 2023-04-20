@@ -71,6 +71,7 @@ call(async ({ github, context, core, meta }) => {
           },
         });
         patches[i] = await resp.body.text();
+        console.log(`🚀 ~ file: backportPrTo.ts:74 ~ q.add ~ patches[i]:`, patches[i]);
       });
     }
 
