@@ -8,6 +8,7 @@
 import { call, getGitHubToken } from './core';
 import * as fs from 'fs-extra';
 import Queue from 'p-queue';
+import { fetch } from 'undici';
 import { getDateString } from './utils';
 import { execAsync } from './utils/exec';
 
