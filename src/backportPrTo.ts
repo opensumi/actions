@@ -88,7 +88,7 @@ call(async ({ github, context, core, meta }) => {
 
     q.start();
 
-    await q.onEmpty();
+    await q.onIdle();
 
     const dir = process.env.CODEBASE_PATH;
 
