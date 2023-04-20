@@ -1,9 +1,9 @@
 import * as core from '@actions/core';
-import { context, getOctokit } from '@actions/github';
+import { context } from '@actions/github';
 import { Context } from '@actions/github/lib/context';
-import { GitHub } from '@actions/github/lib/utils';
+import { Octokit } from '@octokit/rest';
 
-export type { Context, GitHub };
+export type { Context };
 
 process.on('unhandledRejection', handleError);
 
@@ -20,12 +20,10 @@ interface IMeta {
   slug: string;
 }
 
-export type IGitHubKit = InstanceType<typeof GitHub>;
-
 interface AsyncFunctionArguments {
   context: Context;
   core: typeof core;
-  github: IGitHubKit;
+  github: Octokit;
   meta: IMeta;
 }
 
@@ -45,8 +43,9 @@ export async function call(
     opts.previews = previews.split(',');
   }
 
-  const github = getOctokit(token, opts);
-
+  const github = new Octokit({
+    auth: token,
+  });
   const meta = {
     slug: `${context.repo.owner}/${context.repo.repo}`,
   } as IMeta;

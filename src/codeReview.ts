@@ -1,5 +1,4 @@
 import { generateCodeReview } from './openai/generateCodeReview';
-import { Octokit } from '@octokit/rest';
 import { call, getGitHubToken } from './core';
 
 const keyword = 'ChatGPT Code Review:';
@@ -13,14 +12,7 @@ call(async ({ github, context, core }) => {
     return;
   }
 
-  const token = getGitHubToken();
-
-  // 不知道为什么，@actions/github 自带的那个 octo 请求不到 diff 文件，这里使用单独的包进行请求
-  const octo = new Octokit({
-    auth: token,
-  });
-
-  const { data: diff } = await octo.pulls.get({
+  const { data: diff } = await github.pulls.get({
     owner: context.repo.owner,
     repo: context.repo.repo,
     pull_number: context.issue.number,
@@ -32,7 +24,11 @@ call(async ({ github, context, core }) => {
   const title = context.payload.pull_request?.title;
   const body = context.payload.pull_request?.body;
   try {
-    const msg = await generateCodeReview(title, body, diff as unknown as string);
+    const msg = await generateCodeReview(
+      title,
+      body,
+      diff as unknown as string
+    );
     const comments = await github.rest.issues.listComments({
       issue_number: context.issue.number,
       owner: context.repo.owner,

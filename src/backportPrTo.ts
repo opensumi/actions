@@ -15,6 +15,7 @@ import { execAsync } from './utils/exec';
 
 call(async ({ github, context, core, meta }) => {
   const token = getGitHubToken();
+
   const owner = process.env.OWNER;
   const repo = process.env.REPO;
   const pullNumber = parseInt(process.env.PULL_NUMBER);
