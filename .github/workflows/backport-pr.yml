@@ -44,16 +44,19 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: opensumi/core
-          ref: ${{ steps.parse-pr-data.outputs.sha }}
+          ref: ${{ inputs.target_branch }}
           path: workspace
           token: ${{ steps.bot-token.outputs.token }}
 
       - name: Pick And Push
         run: |
           cd workspace
-          branch="backport/queue/${{ inputs.pull_number }}-$(date +"%Y%m%d%H%M%S")"
           git config --global user.name "opensumi[bot]"
           git config --global user.email "99156626+opensumi[bot]@users.noreply.github.com"
+
+          git cherry-pick ${{ steps.parse-pr-data.outputs.base_sha }}...${{ steps.parse-pr-data.outputs.head_sha }}
+
+          branch="backport/queue/${{ inputs.pull_number }}-$(date +"%Y%m%d%H%M%S")"
           git checkout -b $branch
           git push -u origin $branch
           export PR_FROM=$branch

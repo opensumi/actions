@@ -9,17 +9,21 @@ call(async ({ github, context, core }) => {
     repo,
     pull_number: parseInt(pullNumber),
   });
-  const { sha } = data.head;
+  // base <- head
+  const headSha = data.head.sha;
+  const baseSha = data.base.sha;
 
-  core.setOutput('sha', sha);
+  core.setOutput('head_sha', headSha);
+  core.setOutput('base_sha', baseSha);
   core.setOutput('title', data.title);
   core.setOutput('body', data.body);
+
   if (process.env.PR_FROM && process.env.TARGET_BRANCH) {
     const pull = await github.rest.pulls.create({
       owner,
       repo,
       title: data.title,
-      body: `${data.body}\n\n---\n\nBackport from #${pullNumber} ${sha.slice(
+      body: `${data.body}\n\n---\n\nBackport from #${pullNumber} ${headSha.slice(
         0,
         10
       )}\n\nThanks to @${data.user.login} for your valuable contribution.`,
