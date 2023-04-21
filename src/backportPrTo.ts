@@ -27,12 +27,6 @@ call(async ({ github, context, core, meta }) => {
 
   // base <- head
   const headSha = data.head.sha;
-  const baseSha = data.base.sha;
-
-  core.setOutput('head_sha', headSha);
-  core.setOutput('base_sha', baseSha);
-  core.setOutput('title', data.title);
-  core.setOutput('body', data.body);
 
   if (process.env.TARGET_BRANCH) {
     const targetBranch = process.env.TARGET_BRANCH;

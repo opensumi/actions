@@ -34,14 +34,13 @@ jobs:
           token-server: ${{ secrets.BOT_TOKEN_SERVER }}
           flag: ${{ secrets.BOT_FLAG }}
 
-      - name: Parse Pull Request ${{ inputs.pull_number }}
+      - uses: opensumi/actions/parse-pr-data@main
         id: parse-pr-data
-        run: |
-          yarn tsx ./src/backportPrTo.ts
-        env:
-          OWNER: opensumi
-          REPO: core
-          PULL_NUMBER: ${{ inputs.pull_number }}
+        with:
+          owner: opensumi
+          repo: core
+          pull_number: ${{ inputs.pull_number }}
+
       # 这个 action checkout 出的代码可以 push 到远程
       - name: Checkout SHA
         uses: actions/checkout@v3
