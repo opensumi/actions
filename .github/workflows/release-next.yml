@@ -109,6 +109,7 @@ jobs:
           ISSUE_NUMBER: ${{ inputs.pull_number }}
       # 发布失败后，更新 checkRun 状态
       - uses: opensumi/actions/.github/actions/run-script@main
+        if: failure()
         with:
           script: 'createPrNextCheckSuite'
         env:
