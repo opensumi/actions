@@ -52,9 +52,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
-      - name: Get yarn cache directory path
+      - name: Set output
         id: yarn_cache_dir_path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+        run: echo "name=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
       - uses: actions/cache@v3
         id: yarn_cache
         with:
