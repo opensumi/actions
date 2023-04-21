@@ -24,4 +24,4 @@ outputs:
 
 runs:
   using: 'node16'
-  main: ../lib/botToken/getAccessToken.js
+  main: ../lib/parsePrData/index.js
