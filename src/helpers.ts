@@ -1,40 +1,27 @@
-import { readFile } from 'fs/promises';
+import { readFileSync } from 'fs';
 import { Context } from './core';
 
-export const createVersionText = (
-  type = 'Pre-Release',
-  version: string,
-  context: Context
-) => {
-  if (!context.payload.comment) {
-    return '';
-  }
+export const createVersionText = (type = 'Pre-Release', version: string) => {
   return (
-    `🎉 ${type} version ` +
-      version +
-      ' publish successful! You can install prerelease version via `npm install package@' +
-      version +
-      ' `' +
-      ' [@' +
-      context.payload.comment.user.login +
-      ']' +
-      '(https://github.com/' +
-      context.payload.comment.user.login +
-      ')\n\n' +
-      '```\n' +
-      version +
-      '\n' +
-      '```\n' +
-      process.env.GITHUB_STEP_SUMMARY ?? ''
+    `🎉 ${type} version ${version}  publish successful! You can install this version via \`npm install package@${version}\`` +
+    '```\n' +
+    version +
+    '\n' +
+    '```\n' +
+    readSummary()
   );
 };
 
 /**
  * GitHub 的 Summary 只是某个 step 的，所以在当前 step 无法查到上个 step 的日志
  */
-export const readSummary = async () => {
+export const readSummary = () => {
   if (!process.env.GITHUB_STEP_SUMMARY) {
     return '';
   }
-  return (await readFile(process.env.GITHUB_STEP_SUMMARY)).toString();
+  return readFileSync(process.env.GITHUB_STEP_SUMMARY).toString();
 };
+
+export function getUserLogin(context: Context) {
+  return context.payload.sender.login;
+}

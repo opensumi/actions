@@ -5,8 +5,7 @@ import { getRepo } from './utils/context';
 call(async ({ github, context, core }) => {
   const commentBody = createVersionText(
     'PR Next',
-    process.env.CURRENT_VERSION!,
-    context
+    process.env.CURRENT_VERSION!
   );
 
   const repo = getRepo(context);

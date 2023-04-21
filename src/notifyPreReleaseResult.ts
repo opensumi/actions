@@ -4,8 +4,7 @@ import { createVersionText } from './helpers';
 call(async ({ github, context, core }) => {
   const issueBody = createVersionText(
     'Pre-Release',
-    process.env.CURRENT_VERSION!,
-    context
+    process.env.CURRENT_VERSION!
   );
 
   await github.rest.issues.createComment({
