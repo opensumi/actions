@@ -35,6 +35,8 @@ jobs:
         if: success()
         with:
           ref: ${{ steps.parse-pr-data.outputs.head_sha }}
+          repository: opensumi/core
+          token: ${{ steps.bot-token.outputs.token }}
 
       - uses: opensumi/actions/.github/actions/run-script@main
         with:
