@@ -1,19 +1,27 @@
 import { call } from './core';
 import { createVersionText } from './helpers';
+import { getRepo } from './utils/context';
 
 call(async ({ github, context, core }) => {
-  const commentBody = createVersionText('PR Next', process.env.CURRENT_VERSION!, context);
+  const commentBody = createVersionText(
+    'PR Next',
+    process.env.CURRENT_VERSION!,
+    context
+  );
+
+  const repo = getRepo(context);
+  const issueNumber = process.env.ISSUE_NUMBER
+    ? parseInt(process.env.ISSUE_NUMBER)
+    : context.issue.number;
 
   await github.rest.issues.createComment({
-    issue_number: context.issue.number,
-    owner: context.repo.owner,
-    repo: context.repo.repo,
+    ...repo,
+    issue_number: issueNumber,
     body: commentBody,
   });
 
   await github.rest.checks.update({
-    owner: context.repo.owner,
-    repo: context.repo.repo,
+    ...repo,
     status: 'completed',
     completed_at: new Date(),
     conclusion: 'success',

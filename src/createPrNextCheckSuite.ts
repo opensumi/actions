@@ -1,19 +1,19 @@
 import { call } from './core';
+import { getRepo } from './utils/context';
 
 call(async ({ github, context, core }) => {
   const status = process.env.STATUS || 'start';
+  const repo = getRepo(context);
   if (status === 'start') {
     // 创建一个 checkSuite
     const suite = await github.rest.checks.createSuite({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
+      ...repo,
       head_sha: process.env.HEAD_SHA!,
     });
 
     // 创建一个 checkRun
     const check = await github.rest.checks.create({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
+      ...repo,
       name: '🚀🚀🚀 Pre-Release Version for pull request',
       status: 'in_progress',
       head_sha: suite.data.head_sha,
@@ -25,8 +25,7 @@ call(async ({ github, context, core }) => {
     core.exportVariable('CHECK_RUN_ID', check.data.id);
   } else {
     await github.rest.checks.update({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
+      ...repo,
       status: 'completed',
       completed_at: new Date(),
       conclusion: 'failure',
