@@ -5,18 +5,22 @@ call(async ({ github, context, core }) => {
   const status = process.env.STATUS || 'start';
   const repo = getRepo(context);
   if (status === 'start') {
-    // 创建一个 checkSuite
-    const suite = await github.rest.checks.createSuite({
-      ...repo,
-      head_sha: process.env.HEAD_SHA!,
-    });
+    try {
+      // 创建一个 checkSuite
+      await github.rest.checks.createSuite({
+        ...repo,
+        head_sha: process.env.HEAD_SHA!,
+      });
+    } catch (error) {
+      console.log('createSuite error', error);
+    }
 
     // 创建一个 checkRun
     const check = await github.rest.checks.create({
       ...repo,
       name: '🚀🚀🚀 Pre-Release Version for pull request',
       status: 'in_progress',
-      head_sha: suite.data.head_sha,
+      head_sha: process.env.HEAD_SHA,
       output: {
         title: 'Pre-Release version is publishing. Please wait for a moment...',
         summary: `A version for pull request is **running**. sha: **${process.env.HEAD_SHA}**`,
