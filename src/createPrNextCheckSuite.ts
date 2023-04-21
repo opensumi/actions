@@ -18,11 +18,11 @@ call(async ({ github, context, core }) => {
     // 创建一个 checkRun
     const check = await github.rest.checks.create({
       ...repo,
-      name: '🚀🚀🚀 Pre-Release Version for pull request',
+      name: '🚀🚀🚀 Next Version for pull request',
       status: 'in_progress',
       head_sha: process.env.HEAD_SHA,
       output: {
-        title: 'Pre-Release version is publishing. Please wait for a moment...',
+        title: 'Next version is publishing. Please wait for a moment...',
         summary: `A version for pull request is **running**. sha: **${process.env.HEAD_SHA}**`,
       },
     });
@@ -35,7 +35,7 @@ call(async ({ github, context, core }) => {
       conclusion: 'failure',
       check_run_id: process.env.CHECK_RUN_ID,
       output: {
-        title: 'Pre-Release Version publish failed',
+        title: 'Next Version publish failed',
         summary:
           'A version for pull request is **failed**. please check the error.',
       },
