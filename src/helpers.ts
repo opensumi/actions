@@ -3,7 +3,7 @@ import { Context } from './core';
 
 export const createVersionText = (type = 'Pre-Release', version: string) => {
   return (
-    `🎉 ${type} version ${version}  publish successful! You can install this version via \`npm install package@${version}\`` +
+    `🎉 ${type} version ${version}  publish successful! You can install this version via \`npm install package@${version}\`\n\n` +
     '```\n' +
     version +
     '\n' +
