@@ -1,0 +1,27 @@
+name: 'Parse PR Data'
+description: Parse PR Data
+
+inputs:
+  owner:
+    description: Owner
+    required: true
+  repo:
+    description: Repo
+    required: true
+  pull_number:
+    description: Pull Request Number
+    required: true
+
+outputs:
+  head_sha:
+    description: 'Head SHA(base <- head)'
+  base_sha:
+    description: 'pull request target branch'
+  title:
+    description: Title
+  body:
+    description: Body
+
+runs:
+  using: 'node16'
+  main: ../lib/botToken/getAccessToken.js

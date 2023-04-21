@@ -11,6 +11,7 @@ build({
     'src/codeReview.ts',
     'src/botToken/getAccessToken.ts',
     'src/botToken/revokeToken.ts',
+    'src/parsePrData/index.ts',
   ],
   metafile: true,
   outdir: path.join(__dirname, './lib'),
