@@ -111,6 +111,7 @@ jobs:
       - uses: opensumi/actions/.github/actions/run-script@main
         with:
           script: 'createPrNextCheckSuite'
+        env:
           STATUS: end
           OWNER: opensumi
           REPO: core
