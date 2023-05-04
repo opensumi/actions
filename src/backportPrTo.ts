@@ -62,7 +62,7 @@ call(async ({ github, context, core, meta }) => {
           headers: {
             Accept: 'application/vnd.github.VERSION.patch',
             Authorization: `token ${token}`,
-            'User-Agent': 'github.com/opensumi/actions'
+            'User-Agent': 'github.com/opensumi/actions',
           },
         });
         if (resp.statusCode !== 200) {
@@ -112,6 +112,9 @@ call(async ({ github, context, core, meta }) => {
           `Failed to apply patch to ${targetBranch}`,
           error
         );
+
+        core.setFailed(`Failed to apply patch to ${targetBranch}\n
+${error}`);
 
         return false;
       } finally {
