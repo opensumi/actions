@@ -23,7 +23,9 @@ call(async ({ github, context, core }) => {
       head_sha: process.env.HEAD_SHA,
       output: {
         title: 'Next version is publishing. Please wait for a moment...',
-        summary: `A version for pull request is **running**. sha: **${process.env.HEAD_SHA}**`,
+        summary: `A version for pull request is **running**. sha: **${process.env.HEAD_SHA}**.\n
+workflow: ${context.workflow}\n
+URL: https://github.com/opensumi/actions/actions/workflows/release-next.yml`,
       },
     });
     core.exportVariable('CHECK_RUN_ID', check.data.id);
@@ -36,8 +38,9 @@ call(async ({ github, context, core }) => {
       check_run_id: process.env.CHECK_RUN_ID,
       output: {
         title: 'Next Version publish failed',
-        summary:
-          'A version for pull request is **failed**. please check the error.',
+        summary: `A version for pull request is **failed**. please check the error.\n
+workflow: ${context.workflow}\n
+URL: https://github.com/opensumi/actions/actions/workflows/release-next.yml`,
       },
     });
   }
