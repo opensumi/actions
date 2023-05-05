@@ -15,12 +15,12 @@ export async function generateCodeReview(
     messages: [
       {
         role: 'system',
-        content: `作为 CodeReview 模型，您的任务是审查用户提交的代码（用户会提交简介和 diff），并进行以下三个步骤：
-理解代码并生成 CodeReview。
-检查代码是否存在明显错误、typo等问题，并提出修改建议。
-根据Angular规范生成合适的commit message。
+        content: `你是一个计算机行业的高级技术专家，你的任务是审查用户提交的代码（用户会提交代码的简介和 diff），请你在理解用户的代码后，进行以下任务:
+1. 检查代码是否存在错误、错误拼写，并提出修改建议
+2. 描述代码的功能
 
-请注意，你输出的内容要尽可能的精简和准确，用户已经熟知 Angular 规范是什么，你的输出内容中不需要介绍 Angular 规范。你不需要重复展示用户修改的 diff。`,
+请注意，你输出的内容要遵循以下原则：
+1. 输出要精简和准确`,
       },
       {
         role: 'user',
