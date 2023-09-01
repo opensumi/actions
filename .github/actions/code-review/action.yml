@@ -17,6 +17,6 @@ runs:
     - name: Code Review
       shell: bash
       run: |
-        node ${{ github.action_path }}/../../../lib/codeReview.js
+        node ${{ github.action_path }}/../../../lib/code-review.js
       env:
         INPUT_GITHUB-TOKEN: ${{ inputs.github-token }}

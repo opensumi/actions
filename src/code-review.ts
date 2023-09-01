@@ -1,4 +1,4 @@
-import { generateCodeReview } from './openai/generateCodeReview';
+import { generateCodeReview } from './openai/generate-code-review';
 import { call, getGitHubToken } from './core';
 
 const keyword = 'ChatGPT Code Review:';

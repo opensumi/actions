@@ -8,7 +8,7 @@ build({
     'src/notifyPreReleaseResult.ts',
     'src/notifyPrNextResult.ts',
     'src/notifyRCResult.ts',
-    'src/codeReview.ts',
+    'src/code-review.ts',
     'src/bot-token/get-access-token.ts',
     'src/bot-token/revoke-token.ts',
     'src/parse-pr-data/index.ts',
