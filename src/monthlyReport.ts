@@ -1,6 +1,7 @@
 import { call, getGitHubToken } from './core';
 import { Octokit } from '@octokit/rest';
 import { getDateString } from './utils';
+import dayjs from 'dayjs';
 
 // 格式化日期为 "yyyy-mm-dd" 的字符串
 export const formatDate = (date: Date) => {
@@ -57,7 +58,7 @@ class GitHubService {
     owner: string,
     repo: string,
     page?: number,
-    perPage = PER_PAGE
+    perPage = PER_PAGE,
   ) {
     const result = await this.octo.request(
       'GET /repos/{owner}/{repo}/stargazers',
@@ -69,7 +70,7 @@ class GitHubService {
         headers: {
           Accept: 'application/vnd.github.v3.star+json',
         },
-      }
+      },
     );
     return result;
   }
@@ -78,7 +79,7 @@ class GitHubService {
     owner: string,
     repo: string,
     page?: number,
-    perPage = PER_PAGE
+    perPage = PER_PAGE,
   ) {
     const result = await this.octo.request('GET /repos/{owner}/{repo}/issues', {
       owner,
@@ -98,7 +99,7 @@ class GitHubService {
     owner: string,
     repo: string,
     page?: number,
-    perPage = PER_PAGE
+    perPage = PER_PAGE,
   ) {
     const result = await this.octo.request('GET /repos/{owner}/{repo}/pulls', {
       owner,
@@ -161,7 +162,7 @@ class GitHubService {
     const resArray = await Promise.all(
       requestPages.map((page) => {
         return this.getRepoStargazers(owner, repo, page);
-      })
+      }),
     );
 
     const starRecordsMap: Map<string, number> = new Map();
@@ -176,7 +177,7 @@ class GitHubService {
           starRecordsData.push(
             ...(data as {
               starred_at: string;
-            }[])
+            }[]),
           );
         }
       });
@@ -192,7 +193,7 @@ class GitHubService {
           };
           starRecordsMap.set(
             getDateString(starRecord.starred_at),
-            PER_PAGE * (requestPages[index] - 1)
+            PER_PAGE * (requestPages[index] - 1),
           );
         }
       });
@@ -224,7 +225,7 @@ class GitHubService {
     owner: string,
     repo: string,
     from: number,
-    to: number
+    to: number,
   ) {
     console.log('getRepoStarIncrement');
     const patchRes = await this.getRepoStargazers(owner, repo);
@@ -281,7 +282,7 @@ class GitHubService {
     owner: string,
     repo: string,
     from: number,
-    to: number
+    to: number,
   ) {
     console.log('getRepoIssueStatus');
 
@@ -350,7 +351,7 @@ class GitHubService {
     owner: string,
     repo: string,
     from: number,
-    to: number
+    to: number,
   ) {
     console.log('getRepoPullStatus');
 
@@ -417,7 +418,7 @@ class GitHubService {
     owner: string,
     repo: string,
     from: number = Date.now() - HISTORY_RANGE,
-    to = Date.now()
+    to = Date.now(),
   ) {
     const issues = await this.getRepoIssueStatus(owner, repo, from, to);
     const pulls = await this.getRepoPullStatus(owner, repo, from, to);
@@ -445,7 +446,7 @@ class GitHubService {
 
   async getOrganizationPRCount(
     owner: string,
-    startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).getTime() // 最近30天的时间戳
+    startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).getTime(), // 最近30天的时间戳
   ) {
     const results: IOrganizationPrResult = {};
     const repos = await this.getOrganizationRepos(owner);
@@ -491,7 +492,7 @@ class GitHubService {
 
   async getOrganizationNewContributors(
     owner: string,
-    startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString() // 最近30天的时间戳
+    startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(), // 最近30天的时间戳
   ) {
     const results: IOrganizationNewContributionsResult = {};
     const repos = await this.getOrganizationRepos(owner);
@@ -500,7 +501,7 @@ class GitHubService {
       const newContributors = await this.getNewContributions(
         repo.owner.login,
         repo.name,
-        startDate
+        startDate,
       );
       results[repo.full_name] = newContributors;
     }
@@ -537,7 +538,7 @@ class GitHubService {
   async getNewContributions(
     owner: string,
     repo: string,
-    startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString() // 最近30天的时间戳
+    startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(), // 最近30天的时间戳
   ) {
     let page = 1;
     let allContributors = await this.getContributors(owner, repo, page);
@@ -548,7 +549,7 @@ class GitHubService {
     ) {
       page++;
       allContributors = allContributors.concat(
-        await this.getContributors(owner, repo, page)
+        await this.getContributors(owner, repo, page),
       );
     }
     page = 1;
@@ -556,7 +557,7 @@ class GitHubService {
     while (allCommits.length && allCommits.length % 100 === 0) {
       page++;
       allCommits = allCommits.concat(
-        await this.getCommits(owner, repo, page, startDate)
+        await this.getCommits(owner, repo, page, startDate),
       );
     }
     const monthlyContributors = new Map();
@@ -585,7 +586,7 @@ class GitHubService {
       }
     }
     console.log(
-      `${owner}/${repo} 仓库新增贡献者数量：${newContributions.length}`
+      `${owner}/${repo} 仓库新增贡献者数量：${newContributions.length}`,
     );
     return newContributions;
   }
@@ -593,7 +594,7 @@ class GitHubService {
   async getMembershipForUserInOrg(
     org: string,
     team_slug: string,
-    username: string
+    username: string,
   ) {
     const result = await this.octo.teams.getMembershipForUserInOrg({
       org,
@@ -610,7 +611,7 @@ class GitHubService {
           await this.getMembershipForUserInOrg(
             org,
             TEAM_MEMBERS.MENTOR,
-            username
+            username,
           )
         ).state === 'active';
       if (isMentor) {
@@ -623,7 +624,7 @@ class GitHubService {
           await this.getMembershipForUserInOrg(
             org,
             TEAM_MEMBERS.CORE_MEMBER,
-            username
+            username,
           )
         ).state === 'active';
       if (isCoreMember) {
@@ -636,7 +637,7 @@ class GitHubService {
           await this.getMembershipForUserInOrg(
             org,
             TEAM_MEMBERS.CONTRIBUTOR,
-            username
+            username,
           )
         ).state === 'active';
       if (isContributor) {
@@ -655,7 +656,15 @@ call(async ({ github, context, core }) => {
 
   const service = new GitHubService(token);
   // 获取当前日期
-  const today = new Date();
+  let today = new Date();
+
+  const input = core.getInput('time');
+
+  if (input) {
+    const day = dayjs(`${input}-02`, 'YYYY-MM-DD');
+    today = day.toDate();
+  }
+
   // 获取当前月份的第一天
   const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
   // 获取下个月份的第一天，再倒退一天得到本月最后一天
@@ -666,7 +675,7 @@ call(async ({ github, context, core }) => {
   const notUpToStandards = [];
   let content = '# Monthly Report of OpenSumi\n';
   content += `> This report counts OpenSumi organization data from ${formatDate(
-    firstDay
+    firstDay,
   )} to ${formatDate(lastDay)}.\n\n`;
   content +=
     'The monthly report aims to provide an overview of the [OpenSumi](https://github.com/opensumi), it contains the basis of all projects within the [OpenSumi](https://github.com/opensumi) organization, as well as a summary of the most significant changes and improvements made during the month.\n';
@@ -679,7 +688,7 @@ call(async ({ github, context, core }) => {
     owner,
     repo,
     firstDay.getTime(),
-    lastDay.getTime()
+    lastDay.getTime(),
   );
 
   content += '### Basic (opensumi/core)\n';
@@ -766,7 +775,7 @@ call(async ({ github, context, core }) => {
       (standard) =>
         `| ${standard.login} | ${standard.role.toUpperCase()} | ${
           standard.total
-        } | **${standard.requirement}** |`
+        } | **${standard.requirement}** |`,
     )
     .join('\n');
   content += '\n';
@@ -781,7 +790,7 @@ call(async ({ github, context, core }) => {
       content += newContributors[repo]
         .map(
           (contributor: IOrganizationNewContributionsResult) =>
-            `@${contributor.login}`
+            `@${contributor.login}`,
         )
         .join('\n');
       content += '\n\n';
@@ -791,7 +800,7 @@ call(async ({ github, context, core }) => {
   content += 'Thanks goes to these wonderful people!';
 
   const title = `📈 Monthly Report of OpenSumi from ${formatDate(
-    firstDay
+    firstDay,
   )} to ${formatDate(lastDay)}`;
 
   await service.octo.issues.create({

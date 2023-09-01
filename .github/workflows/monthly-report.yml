@@ -2,6 +2,10 @@ name: Monthly Report
 
 on:
   workflow_dispatch:
+    inputs:
+      time:
+        description: 'Specify the time of the report'
+        required: false
 
 jobs:
   report:
