@@ -447,6 +447,7 @@ class GitHubService {
   async getOrganizationPRCount(
     owner: string,
     startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).getTime(), // 最近30天的时间戳
+    endDate = Date.now(),
   ) {
     const results: IOrganizationPrResult = {};
     const repos = await this.getOrganizationRepos(owner);
@@ -464,9 +465,10 @@ class GitHubService {
           continue;
         }
         for (const pull of pulls.data) {
+          const prMergeTime = new Date(pull.merged_at).getTime();
           if (
             !pull.merged_at ||
-            !(new Date(pull.merged_at).getTime() >= startDate)
+            !(prMergeTime >= startDate && prMergeTime <= endDate)
           ) {
             continue;
           }
@@ -566,18 +568,22 @@ class GitHubService {
     }
     const monthlyContributors = new Map();
     for (const commit of allCommits) {
+      const commitStartTime = new Date(commit.commit.committer?.date).getTime();
       const login = commit.author?.login || commit.commit.committer?.name;
       if (
         !(
           commit.commit.committer?.date &&
-          new Date(commit.commit.committer?.date).getTime() >=
-            new Date(startDate).getTime()
+          commitStartTime >=
+            new Date(startDate).getTime() &&
+          commitStartTime <=
+            new Date(endDate).getTime()
         )
       ) {
         break;
       }
       monthlyContributors.set(login, (monthlyContributors.get(login) || 0) + 1);
     }
+
     const newContributions = [];
     if (Array.isArray(allContributors)) {
       for (const contributor of allContributors) {
@@ -675,7 +681,7 @@ call(async ({ github, context, core }) => {
   const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
   const lastDay = new Date(nextMonth.getTime() - 86400000);
 
-  const results = await service.getOrganizationPRCount(owner);
+  const results = await service.getOrganizationPRCount(owner, firstDay.getTime(), lastDay.getTime());
   const notUpToStandards = [];
   let content = '# Monthly Report of OpenSumi\n';
   content += `> This report counts OpenSumi organization data from ${formatDate(
