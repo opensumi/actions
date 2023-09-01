@@ -24,4 +24,4 @@ outputs:
 
 runs:
   using: 'node16'
-  main: ../lib/parsePrData/index.js
+  main: ../lib/parse-pr-data/index.js
