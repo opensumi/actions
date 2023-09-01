@@ -493,6 +493,7 @@ class GitHubService {
   async getOrganizationNewContributors(
     owner: string,
     startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(), // 最近30天的时间戳
+    endDate = new Date().toISOString()
   ) {
     const results: IOrganizationNewContributionsResult = {};
     const repos = await this.getOrganizationRepos(owner);
@@ -502,6 +503,7 @@ class GitHubService {
         repo.owner.login,
         repo.name,
         startDate,
+        endDate
       );
       results[repo.full_name] = newContributors;
     }
@@ -521,7 +523,7 @@ class GitHubService {
     return [];
   }
 
-  async getCommits(owner: string, repo: string, page = 1, since: string) {
+  async getCommits(owner: string, repo: string, page = 1, since: string, until: string) {
     try {
       const { data } = await this.octo.repos.listCommits({
         owner,
@@ -529,6 +531,7 @@ class GitHubService {
         per_page: 100, // 每页返回最多100条记录
         page,
         since,
+        until
       });
       return data;
     } catch (e) {}
@@ -539,6 +542,7 @@ class GitHubService {
     owner: string,
     repo: string,
     startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(), // 最近30天的时间戳
+    endDate = new Date().toISOString()
   ) {
     let page = 1;
     let allContributors = await this.getContributors(owner, repo, page);
@@ -553,11 +557,11 @@ class GitHubService {
       );
     }
     page = 1;
-    let allCommits = await this.getCommits(owner, repo, page, startDate);
+    let allCommits = await this.getCommits(owner, repo, page, startDate, endDate);
     while (allCommits.length && allCommits.length % 100 === 0) {
       page++;
       allCommits = allCommits.concat(
-        await this.getCommits(owner, repo, page, startDate),
+        await this.getCommits(owner, repo, page, startDate, endDate),
       );
     }
     const monthlyContributors = new Map();
@@ -681,7 +685,7 @@ call(async ({ github, context, core }) => {
     'The monthly report aims to provide an overview of the [OpenSumi](https://github.com/opensumi), it contains the basis of all projects within the [OpenSumi](https://github.com/opensumi) organization, as well as a summary of the most significant changes and improvements made during the month.\n';
   content += '## Overview\n';
   const contributors = await service.getContributors(owner, repo);
-  const newContributors = await service.getOrganizationNewContributors(owner);
+  const newContributors = await service.getOrganizationNewContributors(owner, firstDay.toISOString(), lastDay.toISOString());
   const contributionIncrement = newContributors[`${owner}/${repo}`];
 
   const history = await service.getRepoHistory(
