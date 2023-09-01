@@ -31,3 +31,5 @@ jobs:
       - name: Monthly Report
         run: |
           yarn tsx ./src/monthlyReport.ts
+        env:
+          TARGET_TIME: ${{ inputs.time }}

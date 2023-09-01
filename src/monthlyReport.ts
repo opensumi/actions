@@ -658,12 +658,12 @@ call(async ({ github, context, core }) => {
   // 获取当前日期
   let today = new Date();
 
-  const input = core.getInput('time');
 
-  if (input) {
-    const day = dayjs(`${input}-02`, 'YYYY-MM-DD');
+  if (process.env.TARGET_TIME) {
+    const day = dayjs(`${process.env.TARGET_TIME}-02`, 'YYYY-MM-DD');
     today = day.toDate();
   }
+  console.log(`🚀 ~ file: monthlyReport.ts:665 ~ call ~ today:`, today);
 
   // 获取当前月份的第一天
   const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
