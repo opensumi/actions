@@ -11,11 +11,11 @@ export async function generateCodeReview(
   });
 
   const completion = await openai.createChatCompletion({
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4-32k',
     messages: [
       {
         role: 'system',
-        content: `你是一个计算机行业的高级技术专家，你的任务是审查用户提交的代码（用户会提交代码的简介和 diff），请你在理解用户的代码后，进行以下任务:
+        content: `你是一个计算机行业的高级技术专家，你熟悉 Webpack/TypeScript/JavaScript/Node.js，你的任务是审查用户提交的代码（用户会提交代码的简介和本次变更的代码（以 diff 的形式发送给你）），请你在理解用户的代码后，进行以下任务:
 1. 检查代码是否存在错误、错误拼写，并提出修改建议
 2. 描述代码的功能
 
@@ -39,6 +39,6 @@ export async function generateLocal(base: string, head: string) {
     cwd: process.cwd(),
   });
   const msg = await generateCodeReview('local', '', result.stdout);
-  console.log(`ChatGPT Result:`, msg);
+  console.log(`GPT Result:`, msg);
   return msg;
 }

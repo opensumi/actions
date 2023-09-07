@@ -1,7 +1,7 @@
 import { generateCodeReview } from './openai/generate-code-review';
-import { call, getGitHubToken } from './core';
+import { call } from './core';
 
-const keyword = 'ChatGPT Code Review:';
+const keyword = 'Code Review:';
 
 call(async ({ github, context, core }) => {
   let skip = false;
@@ -35,7 +35,7 @@ call(async ({ github, context, core }) => {
       repo: context.repo.repo,
     });
 
-    // find comments which include 'ChatGPT Code Review'
+    // find comments which include 'Code Review'
     const chatGPTComment = comments.data.find((comment) =>
       comment.body.includes(keyword)
     );
