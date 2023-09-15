@@ -1,30 +1,30 @@
-name: "Publish NPM"
+name: 'Publish NPM'
 description: Publish OpenSumi Package
 
 inputs:
   ref:
-    description: "A valid ref(hash/tags/branch) on OpenSumi/core, eg: v2.20, main"
+    description: 'A valid ref(hash/tags/branch) on OpenSumi/core, eg: v2.20, main'
     required: true
-    default: "main"
+    default: 'main'
   npmToken:
-    description: "NPM Token"
+    description: 'NPM Token'
     required: true
   githubToken:
-    description: "GitHub Token"
+    description: 'GitHub Token'
     required: true
   distTag:
-    description: "distTag, next or rc"
+    description: 'distTag, next or rc'
     required: true
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
+    - name: Use Node.js 16.x
       uses: actions/setup-node@v3
       with:
-        node-version: 14.x
-        registry-url: "https://registry.npmjs.org"
+        node-version: 16.x
+        registry-url: 'https://registry.npmjs.org'
     - uses: actions/checkout@v2
       with:
         repository: opensumi/core
