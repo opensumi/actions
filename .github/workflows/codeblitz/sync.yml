@@ -1,4 +1,4 @@
-name: OpenSumi sync to npmmirror
+name: CodeBlitz sync to npmmirror
 
 on:
   workflow_dispatch:
@@ -21,4 +21,4 @@ jobs:
       - name: Sync
         run: |
           yarn
-          yarn sync ${{ github.event.inputs.version }}
+          yarn sync:codeblitz ${{ github.event.inputs.version }}
