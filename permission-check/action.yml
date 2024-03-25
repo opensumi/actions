@@ -10,4 +10,4 @@ branding:
   color: 'green'
 runs:
   using: 'node20'
-  main: ./index.js
+  main: ../lib/permissionCheck.js
