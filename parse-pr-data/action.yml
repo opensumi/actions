@@ -23,5 +23,5 @@ outputs:
     description: Body
 
 runs:
-  using: 'node16'
+  using: 'node20'
   main: ../lib/parse-pr-data/index.js

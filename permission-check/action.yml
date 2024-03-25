@@ -1,0 +1,13 @@
+name: Permission Check
+description: Check if a user has specific access to this repo
+
+inputs:
+  permission:
+    description: the max permission level required
+    required: true
+branding:
+  icon: 'check'
+  color: 'green'
+runs:
+  using: 'node20'
+  main: ./index.js
