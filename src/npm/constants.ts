@@ -56,3 +56,17 @@ export const kaitianPackages = [
   '@opensumi/ide-extension-manager',
   '@opensumi/ide-utils',
 ];
+
+export const codeBlitzPackages = [
+  '@codeblitzjs/ide-cli',
+  '@codeblitzjs/ide-code-api',
+  '@codeblitzjs/ide-code-service',
+  '@codeblitzjs/ide-core',
+  '@codeblitzjs/ide-common',
+  '@codeblitzjs/ide-i18n',
+  '@codeblitzjs/ide-plugin',
+  '@codeblitzjs/ide-registry',
+  '@codeblitzjs/ide-startup',
+  '@codeblitzjs/ide-sumi-core',
+  '@codeblitzjs/ide-tookit',
+];
