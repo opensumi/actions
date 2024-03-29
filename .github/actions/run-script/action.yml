@@ -1,23 +1,23 @@
-name: "Run Script"
+name: 'Run Script'
 description: Run Specific Script
 
 inputs:
   script:
-    description: "script key, will generate full path: lib/${script}.js"
+    description: 'script key, will generate full path: lib/${script}.js'
     required: true
-    default: "main"
+    default: 'main'
   github-token:
     description: The GitHub token used to create an authenticated client
     default: ${{ github.token }}
     required: false
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
-    - name: Use Node.js 16.x
+    - name: Use Node.js 20.x
       uses: actions/setup-node@v3
       with:
-        node-version: 16.x
+        node-version: 20.x
     - name: Run Script
       shell: bash
       run: |
