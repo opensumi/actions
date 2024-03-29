@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     name: backport
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js 20.x
         uses: actions/setup-node@v4
         with:
@@ -43,7 +43,7 @@ jobs:
 
       # 这个 action checkout 出的代码可以 push 到远程
       - name: Checkout SHA
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: opensumi/core
           ref: ${{ inputs.target_branch }}
