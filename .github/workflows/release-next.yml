@@ -31,7 +31,7 @@ jobs:
           pull_number: ${{ inputs.pull_number }}
 
       # Checkout 到 PR 对应分支
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: success()
         with:
           ref: ${{ steps.parse-pr-data.outputs.head_sha }}
