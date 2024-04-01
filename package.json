@@ -5,7 +5,7 @@
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1",
     "@octokit/rest": "^19.0.7",
-    "@opensumi/octo-service": "^1.0.4",
+    "@opensumi/octo-service": "^1.0.6",
     "dayjs": "^1.11.9",
     "fs-extra": "^11.1.1",
     "globby": "^13.1.3",
@@ -20,11 +20,11 @@
   },
   "devDependencies": {
     "@types/node": "^18.7.23",
-    "esbuild": "^0.15.8",
+    "esbuild": "^0.20.2",
     "esbuild-clean-plugin": "^1.0.0",
     "husky": "^8.0.1",
     "prettier": "^3.0.3",
-    "tsx": "^3.9.0",
-    "undici": "^5.21.2"
+    "tsx": "^4.7.1",
+    "undici": "^6.10.2"
   }
 }
