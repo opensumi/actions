@@ -2,7 +2,7 @@
   "name": "@opensumi/actions",
   "private": "true",
   "dependencies": {
-    "@actions/core": "^1.10.0",
+    "@actions/core": "^1.10.1",
     "@actions/github": "^5.1.1",
     "@octokit/rest": "^19.0.7",
     "@opensumi/octo-service": "^1.0.6",
