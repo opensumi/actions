@@ -15,7 +15,7 @@
   "scripts": {
     "build": "tsx build.ts",
     "sync": "tsx src/sync.ts",
-    "prepare": "husky install",
+    "prepare": "husky",
     "sync:codeblitz": "tsx src/codeblitz/sync.ts"
   },
   "devDependencies": {
