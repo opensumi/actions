@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [20.x]
 
     steps:
       - uses: opensumi/actions/bot-token@main
@@ -32,7 +32,7 @@ jobs:
           pull_number: ${{ inputs.pull_number }}
 
       # Checkout to specific branch
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: success()
         with:
           ref: ${{ steps.parse-pr-data.outputs.head_sha }}
@@ -49,7 +49,7 @@ jobs:
           HEAD_SHA: ${{ steps.parse-pr-data.outputs.head_sha }}
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
