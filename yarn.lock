@@ -981,10 +981,10 @@ tunnel@^0.0.6:
   resolved "https://registry.yarnpkg.com/tunnel/-/tunnel-0.0.6.tgz#72f1314b34a5b192db012324df2cc587ca47f92c"
   integrity sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==
 
-undici@^6.10.2:
-  version "6.10.2"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-6.10.2.tgz#13fe0c099d0055ea16417bd3fef6ccd661210743"
-  integrity sha512-HcVuBy7ACaDejIMdwCzAvO22OsiE6ir6ziTIr9kAE0vB+PheVe29ZvRN8p7FXCO2uZHTjEoUs5bPiFpuc/hwwQ==
+undici@^6.12.0:
+  version "6.12.0"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-6.12.0.tgz#396d4dbd2ea2351094c00be44655d489afe4fb8a"
+  integrity sha512-d87yk8lqSFUYtR5fTFe2frpkMIrUEz+lgoJmhcL+J3StVl+8fj8ytE4lLnJOTPCE12YbumNGzf4LYsQyusdV5g==
 
 universal-user-agent@^6.0.0:
   version "6.0.0"
