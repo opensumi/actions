@@ -822,10 +822,10 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-ky@^0.33.2:
-  version "0.33.2"
-  resolved "https://registry.yarnpkg.com/ky/-/ky-0.33.2.tgz#76ad8f0403d1e6531f1a5931c79716ed420492b5"
-  integrity sha512-f6oS2rKUcPu5FzdqCDbFpmzis/JlqFZw8uIHm/jf8Kc3vtnW+VDhuashOAKyBZv8bFiZFZUMNxTC0JtahEvujA==
+ky@^1.1.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-1.2.3.tgz#4e410c7f55b400d1d0bdceaf588a4765aa362946"
+  integrity sha512-2IM3VssHfG2zYz2FsHRUqIp8chhLc9uxDMcK2THxgFfv8pQhnMfN8L0ul+iW4RdBl5AglF8ooPIflRm3yNH0IA==
 
 merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"
@@ -861,13 +861,12 @@ once@^1.3.0, once@^1.4.0:
   dependencies:
     wrappy "1"
 
-openai-fetch@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/openai-fetch/-/openai-fetch-1.1.0.tgz#664c43bc05a8435e9c87ed75ebeeb434737c0592"
-  integrity sha512-IoNIukKAW2vOwxum1cdg4Ke91QvHOJykhABKc5oVvL3smendvVAiJKRzf1Tv/7FNUTd87sZTwbTCgdk5fkPJCw==
+openai-fetch@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/openai-fetch/-/openai-fetch-2.0.1.tgz#aa0f115a387f4634e8076d968e4c7384abdd73b8"
+  integrity sha512-3oM+iu51yrwIA3U6tKd4LVEM3ff9olXJD0GvOcucmgvC2G8PDPQdFDP8j//9baxswB0GIQiIe1GDokyLK5FYjQ==
   dependencies:
-    ky "^0.33.2"
-    zod "^3.21.2"
+    ky "^1.1.3"
 
 p-finally@^1.0.0:
   version "1.0.0"
@@ -1019,8 +1018,3 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
-
-zod@^3.21.2:
-  version "3.21.4"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.21.4.tgz#10882231d992519f0a10b5dd58a38c9dabbb64db"
-  integrity sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==
