@@ -38,7 +38,6 @@ export const kaitianPackages = [
   '@opensumi/ide-quick-open',
   '@opensumi/ide-scm',
   '@opensumi/ide-search',
-  '@opensumi/ide-static-resource',
   '@opensumi/ide-status-bar',
   '@opensumi/ide-storage',
   '@opensumi/ide-task',
