@@ -54,6 +54,9 @@ export const kaitianPackages = [
   '@opensumi/ide-startup',
   '@opensumi/ide-extension-manager',
   '@opensumi/ide-utils',
+
+  '@opensumi/tree-sitter-wasm',
+  '@opensumi/di',
 ];
 
 export const codeBlitzPackages = [
