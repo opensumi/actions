@@ -10,7 +10,7 @@
     "fs-extra": "^11.2.0",
     "globby": "^13.1.3",
     "openai-fetch": "^2.0.1",
-    "p-queue": "6"
+    "p-queue": "8"
   },
   "scripts": {
     "build": "tsx build.ts",
