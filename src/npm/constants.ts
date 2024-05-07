@@ -1,4 +1,4 @@
-export const kaitianPackages = [
+export const opensumiPackages = [
   '@opensumi/ide-addons',
   '@opensumi/ide-comments',
   '@opensumi/ide-core-browser',

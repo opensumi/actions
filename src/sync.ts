@@ -1,19 +1,24 @@
-import { kaitianPackages } from './npm/constants';
-import { cnpmRegistry, Registry, npmRegistry, npmmirrorRegistry } from './npm/registry';
+import { opensumiPackages } from './npm/constants';
+import {
+  cnpmRegistry,
+  Registry,
+  npmRegistry,
+  npmmirrorRegistry,
+} from './npm/registry';
 
 const version = process.argv.slice(2)[0];
 
 if (!version) {
   (async () => {
     const toPromise = [] as any[];
-    for (const p of kaitianPackages) {
+    for (const p of opensumiPackages) {
       toPromise.push(
         (async () => {
           console.log(`sync ${p}`);
           await cnpmRegistry.sync(p);
           await npmmirrorRegistry.sync(p);
           console.log(`sync ${p} done`);
-        })()
+        })(),
       );
     }
 
@@ -43,7 +48,7 @@ if (!version) {
 
   (async () => {
     const toPromise = [] as Promise<void>[];
-    for (const p of kaitianPackages) {
+    for (const p of opensumiPackages) {
       toPromise.push(
         (async () => {
           // 只有当 npm registry 上有这个包再同步。
@@ -55,7 +60,7 @@ if (!version) {
           } else {
             console.error(`=== ${p} ${version} 在 npm 上不存在，请检查。`);
           }
-        })()
+        })(),
       );
     }
 
