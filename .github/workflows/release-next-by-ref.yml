@@ -99,4 +99,4 @@ jobs:
       - uses: opensumi/actions/.github/actions/run-script@main
         if: success()
         with:
-          script: 'notifyRCResult'
+          script: 'notifyNextResult'
