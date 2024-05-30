@@ -12,9 +12,6 @@ jobs:
     name: Next Version
     environment: next
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x]
 
     steps:
       - uses: opensumi/actions/bot-token@main
@@ -47,11 +44,12 @@ jobs:
           REPO: core
           HEAD_SHA: ${{ steps.parse-pr-data.outputs.head_sha }}
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 20.x
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20.x
           registry-url: 'https://registry.npmjs.org'
+
       - name: Set output
         id: yarn_cache_dir_path
         run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
@@ -59,9 +57,10 @@ jobs:
         id: yarn_cache
         with:
           path: ${{ steps.yarn_cache_dir_path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       # 安装依赖并构建
       - name: Install dependencies & Build
         run: |
