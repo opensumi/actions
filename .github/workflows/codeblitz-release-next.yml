@@ -43,6 +43,7 @@ jobs:
           OWNER: opensumi
           REPO: codeblitz
           HEAD_SHA: ${{ steps.parse-pr-data.outputs.head_sha }}
+          WORKFLOW_PATH: codeblitz-release-next.yml
 
       - name: Use Node.js 20.x
         uses: actions/setup-node@v4
@@ -122,3 +123,4 @@ jobs:
           OWNER: opensumi
           REPO: codeblitz
           HEAD_SHA: ${{ steps.parse-pr-data.outputs.head_sha }}
+          WORKFLOW_PATH: codeblitz-release-next.yml

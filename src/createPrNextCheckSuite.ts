@@ -3,6 +3,8 @@ import { getRepo } from './utils/context';
 
 call(async ({ github, context, core }) => {
   const status = process.env.STATUS || 'start';
+  const workflowPath = process.env.WORKFLOW_PATH || 'release-next.yml';
+
   const repo = getRepo(context);
   if (status === 'start') {
     try {
@@ -25,7 +27,7 @@ call(async ({ github, context, core }) => {
         title: 'Next version is publishing. Please wait for a moment...',
         summary: `A version for pull request is **running**. sha: **${process.env.HEAD_SHA}**.\n
 workflow: ${context.workflow}\n
-URL: https://github.com/opensumi/actions/actions/workflows/release-next.yml`,
+URL: https://github.com/opensumi/actions/actions/workflows/${workflowPath}`,
       },
     });
     core.exportVariable('CHECK_RUN_ID', check.data.id);
@@ -40,7 +42,7 @@ URL: https://github.com/opensumi/actions/actions/workflows/release-next.yml`,
         title: 'Next Version publish failed',
         summary: `A version for pull request is **failed**. please check the error.\n
 workflow: ${context.workflow}\n
-URL: https://github.com/opensumi/actions/actions/workflows/release-next.yml`,
+URL: https://github.com/opensumi/actions/actions/workflows/${workflowPath}`,
       },
     });
   }
