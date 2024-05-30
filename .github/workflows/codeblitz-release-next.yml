@@ -3,7 +3,7 @@ name: CodeBlitz Release NEXT Version
 on:
   workflow_dispatch:
     inputs:
-      ref:
+      pull_number:
         description: 'Pull Request Number'
         required: true
 
@@ -95,7 +95,7 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo $CURRENT_VERSION >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          echo 'user input ref:' $INPUT_REF >> $GITHUB_STEP_SUMMARY
+          echo 'pull request number:' $PR_NUMBER >> $GITHUB_STEP_SUMMARY
           echo '```log' >> $GITHUB_STEP_SUMMARY
           git log --oneline -1 >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
@@ -103,7 +103,7 @@ jobs:
           cat $GITHUB_STEP_SUMMARY >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
         env:
-          INPUT_REF: ${{ github.event.inputs.ref }}
+          PR_NUMBER: ${{ github.event.inputs.pull_number }}
       # 发布完成后，在 issue 中评论，并更新 checkRun 状态
       - uses: opensumi/actions/.github/actions/run-script@main
         if: success()
