@@ -5,10 +5,8 @@ export const createVersionText = (type = 'Pre-Release', version: string) => {
   return (
     `<!-- versionInfo: ${type} | ${version} -->\n\n` +
     `🎉 ${type} publish successful!\n\n` +
-    '```\n' +
     version +
-    '\n' +
-    '```\n' +
+    '\n\n' +
     readSummary()
   );
 };
