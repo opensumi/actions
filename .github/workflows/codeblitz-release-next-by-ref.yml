@@ -29,7 +29,7 @@ jobs:
         if: success()
         with:
           ref: ${{ inputs.ref }}
-          repository: opensumi/core
+          repository: opensumi/codeblitz
           token: ${{ steps.bot-token.outputs.token }}
 
       - name: Use Node.js ${{ matrix.node-version }}
@@ -52,7 +52,7 @@ jobs:
         run: |
           yarn install --immutable
           yarn run init
-          yarn run build:cli-engine || echo "Skip build:cli-engine"
+          yarn run build:all
 
       - name: Setup .yarnrc.yml
         run: |
@@ -94,4 +94,4 @@ jobs:
           script: 'notifyNextResult'
         env:
           OWNER: opensumi
-          REPO: core
+          REPO: codeblitz
