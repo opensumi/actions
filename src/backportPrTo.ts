@@ -34,7 +34,7 @@ call(async ({ github, context, core, meta }) => {
     const commits = (
       await github.paginate(
         'GET /repos/{owner}/{repo}/pulls/{pull_number}/commits',
-        { pull_number: pullNumber, per_page: 100, owner, repo }
+        { pull_number: pullNumber, per_page: 100, owner, repo },
       )
     ).map((commit) => commit.sha);
 
@@ -69,14 +69,11 @@ call(async ({ github, context, core, meta }) => {
           throw new Error(
             `Failed to fetch patch for commit ${commit}, status code: ${
               resp.statusCode
-            }, body: ${await resp.body.text()}`
+            }, body: ${await resp.body.text()}`,
           );
         }
         patches[i] = await resp.body.text();
-        console.log(
-          `🚀 ~ file: backportPrTo.ts:74 ~ q.add ~ patches[i]:`,
-          patches[i]
-        );
+        console.log(`backportPrTo ~ q.add ~ patches[i]:`, patches[i]);
       });
     }
 
@@ -110,7 +107,7 @@ call(async ({ github, context, core, meta }) => {
         console.error(
           'backportCommitsToBranch',
           `Failed to apply patch to ${targetBranch}`,
-          error
+          error,
         );
 
         core.setFailed(`Failed to apply patch to ${targetBranch}\n
@@ -126,7 +123,7 @@ ${error}`);
     // Push the commit to the target branch on the remote.
     const newBranch = `backport/queue/${pullNumber}-${getDateString(
       Date.now(),
-      'yyyyMMddhhmmss'
+      'yyyyMMddhhmmss',
     )}`;
 
     await exec(`git checkout -b ${newBranch}`);
@@ -140,7 +137,7 @@ ${error}`);
         data.body
       }\n\n---\n\nBackport from #${pullNumber} ${headSha.slice(
         0,
-        10
+        10,
       )}\n\nThanks to @${data.user.login} for your valuable contribution.`,
       head: newBranch,
       base: targetBranch,

@@ -9,7 +9,7 @@ export function getTimeStampByDate(t: Date | number | string): number {
 
 export function getDateString(
   t: Date | number | string,
-  format = 'yyyy/MM/dd'
+  format = 'yyyy/MM/dd',
 ): string {
   const d = new Date(getTimeStampByDate(t));
 

@@ -3,22 +3,22 @@
   "private": "true",
   "dependencies": {
     "@actions/core": "^1.10.1",
-    "@actions/github": "^5.1.1",
-    "@octokit/rest": "^19.0.13",
+    "@actions/github": "^6.0.0",
+    "@octokit/rest": "^20.1.1",
     "@opensumi/octo-service": "^1.0.6",
     "dayjs": "^1.11.10",
     "fs-extra": "^11.2.0",
-    "globby": "^14.0.1",
-    "openai-fetch": "^2.0.1",
     "p-queue": "8"
   },
   "scripts": {
     "build": "tsx build.ts",
     "sync": "tsx src/sync.ts",
     "prepare": "husky",
-    "sync:codeblitz": "tsx src/codeblitz/sync.ts"
+    "sync:codeblitz": "tsx src/codeblitz/sync.ts",
+    "lint:fix": "prettier -w ."
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "@types/node": "^18.7.23",
     "esbuild": "^0.21.2",
     "esbuild-clean-plugin": "^1.0.0",

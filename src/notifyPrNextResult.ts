@@ -1,11 +1,12 @@
 import { call } from './core';
 import { createVersionText } from './helpers';
 import { getRepo } from './utils/context';
+import { getISOString } from './utils/time';
 
 call(async ({ github, context, core }) => {
   const commentBody = createVersionText(
     'PR Next',
-    process.env.CURRENT_VERSION!
+    process.env.CURRENT_VERSION!,
   );
 
   const repo = getRepo(context);
@@ -22,9 +23,9 @@ call(async ({ github, context, core }) => {
   await github.rest.checks.update({
     ...repo,
     status: 'completed',
-    completed_at: new Date(),
+    completed_at: getISOString(),
     conclusion: 'success',
-    check_run_id: process.env.CHECK_RUN_ID,
+    check_run_id: parseInt(process.env.CHECK_RUN_ID),
     output: {
       title: 'PR Next Version publish successful!',
       summary: `A version for pull request is **published**. version: **${process.env.CURRENT_VERSION}**

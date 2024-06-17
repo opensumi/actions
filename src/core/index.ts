@@ -31,8 +31,8 @@ interface AsyncFunctionArguments {
 export type AsyncFunction = (args: AsyncFunctionArguments) => Promise<any>;
 
 export async function call(
-  asyncFunction: AsyncFunction,
-  callOptions: ICallOptions = {}
+  cb: AsyncFunction,
+  callOptions: ICallOptions = {},
 ): Promise<void> {
   const token = getGitHubToken();
   const previews = core.getInput('previews');
@@ -50,8 +50,7 @@ export async function call(
     slug: `${context.repo.owner}/${context.repo.repo}`,
   } as IMeta;
 
-  // Using property/value shorthand on `require` (e.g. `{require}`) causes compilation errors.
-  const result = await asyncFunction({
+  const result = await cb({
     github,
     context,
     core,
@@ -61,7 +60,7 @@ export async function call(
   let encoding = callOptions.encoding;
   encoding = encoding ? encoding : 'json';
 
-  let output;
+  let output: any;
 
   switch (encoding) {
     case 'json':

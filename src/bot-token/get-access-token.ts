@@ -12,7 +12,7 @@ async function main() {
       },
     });
 
-    const tokenStr = (await token.body.json()).token;
+    const tokenStr = ((await token.body.json()) as any).token;
 
     core.exportVariable('GITHUB_TOKEN', tokenStr);
     core.exportVariable('__OPENSUMI_BOT__', '1');

@@ -1,5 +1,6 @@
 import { call } from './core';
 import { getRepo } from './utils/context';
+import { getISOString } from './utils/time';
 
 call(async ({ github, context, core }) => {
   const status = process.env.STATUS || 'start';
@@ -35,9 +36,9 @@ URL: https://github.com/opensumi/actions/actions/workflows/${workflowPath}`,
     await github.rest.checks.update({
       ...repo,
       status: 'completed',
-      completed_at: new Date(),
+      completed_at: getISOString(),
       conclusion: 'failure',
-      check_run_id: process.env.CHECK_RUN_ID,
+      check_run_id: parseInt(process.env.CHECK_RUN_ID),
       output: {
         title: 'Next Version publish failed',
         summary: `A version for pull request is **failed**. please check the error.\n
