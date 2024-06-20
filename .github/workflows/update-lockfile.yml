@@ -1,0 +1,63 @@
+name: Update yarn.lock for Pull Request
+
+on:
+  workflow_dispatch:
+    inputs:
+      pull_number:
+      description: 'Pull Request Number'
+      required: true
+
+permissions:
+  contents: read
+
+# Ensure scripts are run with pipefail. See:
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#exit-codes-and-error-action-preference
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: opensumi/actions/bot-token@main
+        id: bot-token
+        with:
+          token-server: ${{ secrets.BOT_TOKEN_SERVER }}
+          flag: ${{ secrets.BOT_FLAG }}
+
+      - uses: opensumi/actions/parse-pr-data@main
+        id: parse-pr-data
+        with:
+          owner: opensumi
+          repo: core
+          pull_number: ${{ inputs.pull_number }}
+
+      # Checkout 到 PR 对应分支
+      - uses: actions/checkout@v4
+        if: success()
+        with:
+          ref: ${{ steps.parse-pr-data.outputs.head_sha }}
+          repository: opensumi/core
+          token: ${{ steps.bot-token.outputs.token }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+      - run: |
+          yarn --version
+
+      - name: Update yarn.lock and push
+        run: |
+          yarn install
+
+          if git diff --exit-code --name-only yarn.lock; then
+            echo "No change."
+          else
+            git config user.name "opensumi[bot]"
+            git config user.email "99156626+opensumi[bot]@users.noreply.github.com"
+
+            git add -A
+            git commit -m 'chore: update yarn.lock'
+            git push origin ${{ steps.parse-pr-data.outputs.head_ref }}
+          fi

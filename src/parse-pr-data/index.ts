@@ -12,11 +12,10 @@ call(async ({ github, context, core, meta }) => {
   });
 
   // base <- head
-  const headSha = data.head.sha;
-  const baseSha = data.base.sha;
-
-  core.setOutput('head_sha', headSha);
-  core.setOutput('base_sha', baseSha);
+  core.setOutput('head_sha', data.head.sha);
+  core.setOutput('base_sha', data.base.sha);
+  core.setOutput('head_ref', data.head.ref);
+  core.setOutput('base_ref', data.base.ref);
   core.setOutput('title', data.title);
   core.setOutput('body', data.body);
 });
