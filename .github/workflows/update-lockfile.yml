@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v4
         if: success()
         with:
-          ref: ${{ steps.parse-pr-data.outputs.head_sha }}
+          ref: ${{ steps.parse-pr-data.outputs.head_ref }}
           repository: opensumi/core
           token: ${{ steps.bot-token.outputs.token }}
 
