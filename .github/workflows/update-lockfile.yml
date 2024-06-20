@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       pull_number:
-      description: 'Pull Request Number'
-      required: true
+        description: 'Pull Request Number'
+        required: true
 
 permissions:
   contents: read
