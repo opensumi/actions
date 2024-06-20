@@ -49,7 +49,7 @@ jobs:
 
       - name: Update yarn.lock and push
         run: |
-          yarn install
+          YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
 
           if git diff --exit-code --name-only yarn.lock; then
             echo "No change."
