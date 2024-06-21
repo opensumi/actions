@@ -17,7 +17,7 @@ defaults:
     shell: bash
 
 jobs:
-  build:
+  task:
     runs-on: ubuntu-latest
     steps:
       - uses: opensumi/actions/bot-token@main
@@ -42,5 +42,6 @@ jobs:
 
       - name: Create merge commit
         run: |
+          git config pull.ff only
           git pull origin ${{ steps.parse-pr-data.outputs.head_ref }}
           git push origin ${{ steps.parse-pr-data.outputs.base_ref }}
