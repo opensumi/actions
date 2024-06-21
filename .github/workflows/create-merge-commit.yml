@@ -42,6 +42,6 @@ jobs:
 
       - name: Create merge commit
         run: |
-          git fetch origin ${{ steps.parse-pr-data.outputs.head_ref }}
-          git merge origin/${{ steps.parse-pr-data.outputs.head_ref }} --ff
+          git config pull.rebase false
+          git pull origin ${{ steps.parse-pr-data.outputs.head_ref }}
           git push origin ${{ steps.parse-pr-data.outputs.base_ref }}
