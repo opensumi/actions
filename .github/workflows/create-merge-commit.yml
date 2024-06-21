@@ -54,5 +54,5 @@ jobs:
           git checkout ${{ steps.parse-pr-data.outputs.base_ref }}
           # Merge the PR branch into the base branch
           git merge ${{ steps.parse-pr-data.outputs.head_ref }}
-          git push -u origin test/${{ steps.parse-pr-data.outputs.base_ref }}
+          git push origin ${{ steps.parse-pr-data.outputs.base_ref }}
           set +x;
