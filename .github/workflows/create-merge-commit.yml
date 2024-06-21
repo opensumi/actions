@@ -1,0 +1,46 @@
+name: Create Merge Commit
+
+on:
+  workflow_dispatch:
+    inputs:
+      pull_number:
+        description: 'Pull Request Number'
+        required: true
+
+permissions:
+  contents: read
+
+# Ensure scripts are run with pipefail. See:
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#exit-codes-and-error-action-preference
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: opensumi/actions/bot-token@main
+        id: bot-token
+        with:
+          token-server: ${{ secrets.BOT_TOKEN_SERVER }}
+          flag: ${{ secrets.BOT_FLAG }}
+
+      - uses: opensumi/actions/parse-pr-data@main
+        id: parse-pr-data
+        with:
+          owner: opensumi
+          repo: core
+          pull_number: ${{ inputs.pull_number }}
+
+      - uses: actions/checkout@v4
+        if: success()
+        with:
+          ref: ${{ steps.parse-pr-data.outputs.base_ref }}
+          repository: opensumi/core
+          token: ${{ steps.bot-token.outputs.token }}
+
+      - name: Create merge commit
+        run: |
+          git pull origin ${{ steps.parse-pr-data.outputs.head_ref }}
+          git push origin ${{ steps.parse-pr-data.outputs.base_ref }}
