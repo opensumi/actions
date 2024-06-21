@@ -39,6 +39,7 @@ jobs:
           ref: ${{ steps.parse-pr-data.outputs.base_ref }}
           repository: opensumi/core
           token: ${{ steps.bot-token.outputs.token }}
+          fetch-depth: 0
 
       - name: Create merge commit
         run: |
