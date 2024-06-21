@@ -44,7 +44,11 @@ jobs:
         run: |
           set -x;
           git config pull.rebase false
-          git pull origin ${{ steps.parse-pr-data.outputs.base_ref }}
-          git pull origin ${{ steps.parse-pr-data.outputs.head_ref }}
-          git push origin ${{ steps.parse-pr-data.outputs.base_ref }}
+          # Fetch the PR to local
+          git fetch origin/${{ steps.parse-pr-data.outputs.head_ref }}
+          git checkout ${{ steps.parse-pr-data.outputs.head_ref }}
+          git checkout ${{ steps.parse-pr-data.outputs.base_ref }}
+          # Merge the PR branch into the base branch
+          git merge ${{ steps.parse-pr-data.outputs.head_ref }}
+          git push -u origin test/${{ steps.parse-pr-data.outputs.base_ref }}
           set +x;
