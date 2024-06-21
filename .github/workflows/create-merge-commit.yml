@@ -44,6 +44,7 @@ jobs:
         run: |
           set -x;
           git config pull.rebase false
+          git pull origin ${{ steps.parse-pr-data.outputs.base_ref }}
           git pull origin ${{ steps.parse-pr-data.outputs.head_ref }}
           git push origin ${{ steps.parse-pr-data.outputs.base_ref }}
           set +x;
