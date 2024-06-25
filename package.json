@@ -24,7 +24,7 @@
     "esbuild-clean-plugin": "^1.0.0",
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
-    "tsx": "^4.9.3",
+    "tsx": "^4.15.7",
     "undici": "^6.19.0"
   }
 }
