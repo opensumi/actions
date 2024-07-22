@@ -6,7 +6,7 @@
     "@actions/github": "^6.0.0",
     "@octokit/rest": "^21.0.0",
     "@opensumi/octo-service": "^1.0.6",
-    "dayjs": "^1.11.11",
+    "dayjs": "^1.11.12",
     "fs-extra": "^11.2.0",
     "p-queue": "8"
   },
