@@ -36,7 +36,8 @@ call(async ({ github, context, core, meta }) => {
   const version = `0.0.${dateString}-${sha}.0`;
 
   core.info(`Publishing ${version}`);
-
-  const command = `lerna publish ${version} --dist-tag next --force-publish='*' --no-push --no-git-tag-version --ignore-prepublish --ignore-scripts --version-private -y`;
+  const versionCmd = `lerna version ${version} --no-git-tag-version --no-push --yes`;
+  await execAsync(versionCmd);
+  const command = `lerna publish from-package --dist-tag next --force-publish='*' --no-push --no-git-tag-version --ignore-prepublish --ignore-scripts --version-private -y`;
   await execAsync(command);
 });
