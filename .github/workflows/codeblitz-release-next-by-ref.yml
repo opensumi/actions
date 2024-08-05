@@ -1,4 +1,4 @@
-name: Release Next Version By Ref
+name: CodeBlitz Release Next Version By Ref
 
 on:
   workflow_dispatch:
