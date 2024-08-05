@@ -73,7 +73,7 @@ jobs:
         with:
           script: 'lerna-publish/index'
         env:
-          HEAD_SHA: ${{ inputs.ref }}
+          HEAD_REF: ${{ inputs.ref }}
           GH_TOKEN: ${{ env.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

@@ -8,12 +8,6 @@ function preprocess(str: string) {
   return removePrefix(str, branchPrefix).replace(/[/\\ -]/g, '');
 }
 
-function handleSha(sha: string) {
-  if (!sha) {
-    return 'next';
-  }
-  return preprocess(sha).slice(0, 8);
-}
 
 function handleBranch(branch: string) {
   if (!branch) {
@@ -31,14 +25,9 @@ function handleBranch(branch: string) {
 
 call(async ({ github, context, core, meta }) => {
   const dateString = dayjs().format('YYYYMMDDHHmmss');
-  let sha = '';
-  if (process.env.GITHUB_REF) {
-    core.info(`Using GITHUB_REF ${process.env.GITHUB_REF}`);
-    sha = handleSha(process.env.GITHUB_REF);
-  } else {
-    core.info(`Using branch ${process.env.HEAD_SHA}`);
-    sha = handleBranch(process.env.HEAD_SHA);
-  }
+
+  core.info(`Using ref ${process.env.HEAD_REF}`);
+  const sha = handleBranch(process.env.HEAD_REF);
 
   await execAsync(`git checkout -b publish/${sha}`);
   const version = `0.0.${dateString}-${sha}.0`;
