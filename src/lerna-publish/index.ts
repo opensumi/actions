@@ -37,6 +37,7 @@ call(async ({ github, context, core, meta }) => {
     sha = handleBranch(process.env.HEAD_SHA);
   }
 
+  await execAsync(`git checkout -b pubish/${sha}`)
   const version = `0.0.${dateString}-${sha}.0`;
   core.info(`Publishing ${version}`);
   await execAsync(`lerna version ${version} --exact --no-push --yes`);
