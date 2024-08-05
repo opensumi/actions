@@ -54,8 +54,11 @@ jobs:
           yarn run init
           yarn run build:all
 
-      - name: Setup .yarnrc.yml
+      - name: Setup git & yarn
         run: |
+          git config --global user.name "opensumi[bot]"
+          git config --global user.email "99156626+opensumi[bot]@users.noreply.github.com"
+
           yarn config set -H npmRegistryServer "https://registry.npmjs.org"
           yarn config set -H npmAlwaysAuth true
           yarn config set -H npmAuthToken $NPM_AUTH_TOKEN
@@ -70,6 +73,7 @@ jobs:
           HEAD_SHA: ${{ inputs.ref }}
           GH_TOKEN: ${{ env.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Adding markdown
         if: success()
         run: |

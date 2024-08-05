@@ -9,6 +9,8 @@ function handleSha(sha: string) {
   return sha.replace(/[/\\-]/g, ' ').slice(0, 6);
 }
 
+const branchPrefix = 'refs/heads/';
+
 function handleBranch(branch: string) {
   if (!branch) {
     return 'next';
@@ -28,8 +30,10 @@ call(async ({ github, context, core, meta }) => {
   const dateString = dayjs().format('YYYYMMDDHHmmss');
   let sha = '';
   if (process.env.SHA) {
+    core.info(`Using SHA ${process.env.SHA}`);
     sha = handleSha(process.env.SHA);
   } else {
+    core.info(`Using branch ${process.env.GITHUB_REF}`);
     sha = handleBranch(process.env.GITHUB_REF);
   }
 
