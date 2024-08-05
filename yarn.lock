@@ -939,10 +939,10 @@ undici@^5.25.4:
   dependencies:
     "@fastify/busboy" "^2.0.0"
 
-undici@^6.19.3:
-  version "6.19.3"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-6.19.3.tgz#07712c2200d9aa6dbd613eb7b356903b7ba30efe"
-  integrity sha512-xWvTmUYvfiKATSKntAVRpPO5bfRcrG9FpiHI916j8dK8nUMjeM0uE8dx7ftKoPUQ2RtRi0KMDL10/03orVgTMA==
+undici@^6.19.5:
+  version "6.19.5"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-6.19.5.tgz#5829101361b583b53206e81579f4df71c56d6be8"
+  integrity sha512-LryC15SWzqQsREHIOUybavaIHF5IoL0dJ9aWWxL/PgT1KfqAW5225FZpDUFlt9xiDMS2/S7DOKhFWA7RLksWdg==
 
 universal-user-agent@^6.0.0:
   version "6.0.0"
