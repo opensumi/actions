@@ -29,15 +29,15 @@ function handleBranch(branch: string) {
 call(async ({ github, context, core, meta }) => {
   const dateString = dayjs().format('YYYYMMDDHHmmss');
   let sha = '';
-  if (process.env.SHA) {
-    core.info(`Using SHA ${process.env.SHA}`);
-    sha = handleSha(process.env.SHA);
+  if (process.env.GITHUB_REF) {
+    core.info(`Using GITHUB_REF ${process.env.GITHUB_REF}`);
+    sha = handleSha(process.env.GITHUB_REF);
   } else {
     core.info(`Using branch ${process.env.HEAD_SHA}`);
     sha = handleBranch(process.env.HEAD_SHA);
   }
 
-  await execAsync(`git checkout -b pubish/${sha}`)
+  await execAsync(`git checkout -b pubish/${sha}`);
   const version = `0.0.${dateString}-${sha}.0`;
   core.info(`Publishing ${version}`);
   await execAsync(`lerna version ${version} --exact --no-push --yes`);
