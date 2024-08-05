@@ -1,26 +1,29 @@
 import { call } from '../core';
 import dayjs from 'dayjs';
 import { execAsync } from '../utils/exec';
+import { removePrefix } from '../utils';
+
+const branchPrefix = 'refs/heads/';
+function preprocess(str: string) {
+  return removePrefix(str, branchPrefix).replace(/[/\\ -]/g, '');
+}
 
 function handleSha(sha: string) {
   if (!sha) {
     return 'next';
   }
-  return sha.replace(/[/\\-]/g, ' ').slice(0, 6);
+  return preprocess(sha).slice(0, 8);
 }
-
-const branchPrefix = 'refs/heads/';
 
 function handleBranch(branch: string) {
   if (!branch) {
     return 'next';
   }
 
-  const tmp = branch.replace(/[/\\-]/g, ' ');
+  const tmp = preprocess(branch);
 
-  if (tmp.length > 6) {
-    // 前三个和后三个
-    return `${tmp.slice(0, 3)}${tmp.slice(-3)}`;
+  if (tmp.length > 8) {
+    return `${tmp.slice(0, 4)}${tmp.slice(-4)}`;
   }
 
   return tmp;
@@ -37,7 +40,7 @@ call(async ({ github, context, core, meta }) => {
     sha = handleBranch(process.env.HEAD_SHA);
   }
 
-  await execAsync(`git checkout -b pubish/${sha}`);
+  await execAsync(`git checkout -b publish/${sha}`);
   const version = `0.0.${dateString}-${sha}.0`;
   core.info(`Publishing ${version}`);
   await execAsync(`lerna version ${version} --exact --no-push --yes`);
