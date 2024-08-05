@@ -62,6 +62,9 @@ jobs:
           yarn config set -H npmRegistryServer "https://registry.npmjs.org"
           yarn config set -H npmAlwaysAuth true
           yarn config set -H npmAuthToken $NPM_AUTH_TOKEN
+
+          CURRENT_COMMIT=$(git rev-parse --short HEAD)
+          echo "CURRENT_COMMIT=${CURRENT_COMMIT}" >> $GITHUB_ENV
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -78,9 +81,7 @@ jobs:
         if: success()
         run: |
           CURRENT_VERSION=$(node -p 'require("./lerna.json").version')
-          CURRENT_COMMIT=$(git rev-parse --short HEAD)
           echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
-          echo "CURRENT_COMMIT=${CURRENT_COMMIT}" >> $GITHUB_ENV
           echo '### Released :rocket:' $CURRENT_VERSION >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo $CURRENT_VERSION >> $GITHUB_STEP_SUMMARY

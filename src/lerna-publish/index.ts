@@ -33,8 +33,8 @@ call(async ({ github, context, core, meta }) => {
     core.info(`Using SHA ${process.env.SHA}`);
     sha = handleSha(process.env.SHA);
   } else {
-    core.info(`Using branch ${process.env.GITHUB_REF}`);
-    sha = handleBranch(process.env.GITHUB_REF);
+    core.info(`Using branch ${process.env.HEAD_SHA}`);
+    sha = handleBranch(process.env.HEAD_SHA);
   }
 
   const version = `0.0.${dateString}-${sha}.0`;
