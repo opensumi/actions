@@ -6,7 +6,12 @@ on:
       pull_number:
         description: 'Pull Request Number'
         required: true
-
+      owner:
+        description: 'Repository Owner'
+        required: true
+      repo:
+        description: 'Repository Name'
+        required: true
 permissions:
   contents: read
 
@@ -29,15 +34,15 @@ jobs:
       - uses: opensumi/actions/parse-pr-data@main
         id: parse-pr-data
         with:
-          owner: opensumi
-          repo: core
+          owner: ${{ inputs.owner }}
+          repo: ${{ inputs.repo }}
           pull_number: ${{ inputs.pull_number }}
 
       - uses: actions/checkout@v4
         if: success()
         with:
           ref: ${{ steps.parse-pr-data.outputs.base_ref }}
-          repository: opensumi/core
+          repository: ${{ steps.parse-pr-data.outputs.full_name }}
           token: ${{ steps.bot-token.outputs.token }}
           fetch-depth: 0
 

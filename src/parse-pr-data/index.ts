@@ -18,4 +18,5 @@ call(async ({ github, context, core, meta }) => {
   core.setOutput('base_ref', data.base.ref);
   core.setOutput('title', data.title);
   core.setOutput('body', data.body);
+  core.setOutput('full_name', data.base.repo.full_name);
 });
