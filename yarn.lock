@@ -950,10 +950,10 @@ undici@^5.25.4:
   dependencies:
     "@fastify/busboy" "^2.0.0"
 
-undici@^6.19.8:
-  version "6.19.8"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-6.19.8.tgz#002d7c8a28f8cc3a44ff33c3d4be4d85e15d40e1"
-  integrity sha512-U8uCCl2x9TK3WANvmBavymRzxbfFYG+tAu+fgx3zxQy3qdagQqBLwJVrdyO1TBfUXvfKveMKJZhpvUYoOjM+4g==
+undici@^6.20.0:
+  version "6.20.0"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-6.20.0.tgz#3b94d967693759ea625a3b78b2097213f30405a1"
+  integrity sha512-AITZfPuxubm31Sx0vr8bteSalEbs9wQb/BOBi9FPlD9Qpd6HxZ4Q0+hI742jBhkPb4RT2v5MQzaW5VhRVyj+9A==
 
 universal-user-agent@^6.0.0:
   version "6.0.0"
