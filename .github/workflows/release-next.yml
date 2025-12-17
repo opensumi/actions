@@ -17,6 +17,10 @@ jobs:
     environment: next
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write  # Required for OIDC
+      contents: read
+
     steps:
       - uses: opensumi/actions/bot-token@main
         id: bot-token
