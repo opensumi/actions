@@ -7,6 +7,9 @@ on:
         description: 'Pull Request Number'
         required: true
 
+permissions:
+  contents: read
+
 jobs:
   next-version:
     name: Next Version
@@ -50,6 +53,12 @@ jobs:
           node-version: 20.x
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Ensure npm is up to date
+        run: |
+          npm --version
+          npm install -g npm@latest
+          npm --version
+
       - name: Set output
         id: yarn_cache_dir_path
         run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
@@ -64,6 +73,7 @@ jobs:
       # 安装依赖并构建
       - name: Install dependencies & Build
         run: |
+          yarn --version
           yarn install --immutable
           yarn run init
           yarn run build:cli-engine || echo "Skip build:cli-engine"
@@ -71,10 +81,16 @@ jobs:
       - name: Setup .yarnrc.yml
         run: |
           yarn config set -H npmRegistryServer "https://registry.npmjs.org"
-          yarn config set -H npmAlwaysAuth true
-          yarn config set -H npmAuthToken $NPM_AUTH_TOKEN
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #          yarn config set -H npmAlwaysAuth true
+      #          yarn config set -H npmAuthToken $NPM_AUTH_TOKEN
+      #        env:
+      #          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_N }}
+
+      - name: Prepare npm config
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN_N }}" > ~/.npmrc
+      #          echo "provenance=false" >> ~/.npmrc
+
       # 发布 next 版本，并在 issue 中回复
       # 使用 lerna publish 命令
       # --preid 指定前缀，确保版本唯一，前缀使用 $(date +%s) 生成类似  2.12.1-1640328423.0
@@ -86,10 +102,12 @@ jobs:
       # --ignore-prepublish 忽略 pre-publish 脚本
       - name: Publish prepatch version
         run: |
+          lerna --version
           lerna publish --exact --preid next-$(date +%s) --dist-tag next --force-publish='*' --no-push --no-git-tag-version prepatch --ignore-prepublish --ignore-scripts --no-private -y
         env:
           GH_TOKEN: ${{ env.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_N }}
+      #          NPM_CONFIG_PROVENANCE: "false"
 
       - name: Set Current Version
         if: success()
